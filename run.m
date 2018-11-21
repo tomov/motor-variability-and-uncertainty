@@ -9,7 +9,7 @@ while ~ex.done
     %a = choose_greedy(agent, 0.9);
     %a = 0;
 
-    r = reward(ex, a);
+    [r, extra] = reward(ex, a);
     agent = update(agent, a, r);
-    ex = next_trial(ex, a, r);
+    ex = next_trial(ex, a, r, extra);
 end

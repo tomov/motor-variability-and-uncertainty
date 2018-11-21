@@ -1,4 +1,4 @@
-function ex = next_trial(ex, a, r)
+function ex = next_trial(ex, a, r, extra)
 
     ex.a = [ex.a a];
     ex.r = [ex.r r];
@@ -9,6 +9,9 @@ function ex = next_trial(ex, a, r)
     else
         ex.var = [ex.var NaN];
     end
+
+    ex.r_cond = [ex.r_cond extra.r_cond];
+    ex.nor_cond = [ex.nor_cond extra.nor_cond];
 
     % switch target
     if mod(ex.t, 50) == 0

@@ -1,5 +1,7 @@
 figure;
 
+% TODO animation drawnow
+
 % plot Q-values & UCBs
 %
 subplot(2,2,1);
