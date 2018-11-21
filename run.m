@@ -4,13 +4,14 @@ agent = init_agent();
 ex = init_exp();
 
 % single conditioned trials
+%{
 ex.clamp(randsample(ex.n, ex.n * 0.05)) = 1;
 ex.clamp(randsample(ex.n, ex.n * 0.05)) = 0;
 ex.clamp(1:20) = NaN;
 ex.clamp(end-40:end) = NaN;
+%}
 
 % block clamps
-%{
 rs = [0.1 0.5 0.9];
 for b = 1:ex.nblocks - 1
     if mod(b,2) == 0
@@ -21,7 +22,6 @@ for b = 1:ex.nblocks - 1
         ex.clamp(s:e) = r;
     end
 end
-%}
 
 % stationary context
 %ex.tarclamp(round(ex.n*1/3):round(ex.n*2/3)) = 0;
