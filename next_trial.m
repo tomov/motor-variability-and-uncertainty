@@ -20,9 +20,14 @@ function ex = next_trial(ex, a, r)
     % TODO shifting boundaries
     % TODO nonstationary vs. stationary
 
+    % next trial
     ex.t = ex.t + 1;
     if ex.t > ex.n
         ex.done = true;
+    else
+        % target clamp
+        if ~isnan(ex.tarclamp(ex.t))
+            ex.target = ex.tarclamp(ex.t);
+        end
     end
-
 end
