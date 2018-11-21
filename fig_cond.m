@@ -88,6 +88,7 @@ set(h, 'facealpha', 0.3);
 w = ax >= 5;
 h = fill([ax(w) flip(ax(w))], [md(w) + sed(w) flip(md(w) - sed(w))], [0.5 0.5 0.5]);
 set(h, 'facealpha', 0.3);
+hold off;
 
 xlabel('trials from condition');
 ylabel('\Delta variability (no reward - reward)');
