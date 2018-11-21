@@ -1,4 +1,4 @@
-function ex = next_trial(ex, a, r, extra)
+function ex = next_trial(ex, a, r)
 
     ex.a = [ex.a a];
     ex.r = [ex.r r];
@@ -10,11 +10,8 @@ function ex = next_trial(ex, a, r, extra)
         ex.var = [ex.var NaN];
     end
 
-    ex.r_cond = [ex.r_cond extra.r_cond];
-    ex.nor_cond = [ex.nor_cond extra.nor_cond];
-
-    % switch target
-    if mod(ex.t, 50) == 0
+    % switch target every block
+    if mod(ex.t, ex.block_size) == 0
         % TODO do it properly
         ex.target = rand * (ex.max - ex.min) + ex.min;
     end

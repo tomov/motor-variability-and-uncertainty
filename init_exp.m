@@ -2,7 +2,9 @@ function ex = init_exp()
 
     ex.min = -20; % min angle
     ex.max = 20; % max angle
-    ex.n = 10000; % # trials
+    ex.block_size = 50; % # trials in a block
+    ex.nblocks = 200; % # blocks
+    ex.n = ex.nblocks * ex.block_size; % # trials
 
     %ex.target = rand * (ex.max - ex.min) + ex.min; % target angle
     ex.target = 0;
@@ -16,6 +18,6 @@ function ex = init_exp()
     ex.var = []; % variability history (5-trial sliding window)
     ex.b = []; % bound history
 
-    ex.r_cond = logical([]); % reward cond single trials 
-    ex.nor_cond = logical([]); % no-reward cond single trials
+    ex.clamp = nan(1, ex.n); % trials with clamped reward probabilities; none by default
+    ex.bclamp = nan(1, ex.nblocks); % blocks with clamped rewards
 

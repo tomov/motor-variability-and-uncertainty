@@ -2,7 +2,7 @@ figure;
 
 cols = {'red', 'blue'};
 labels = {'reward', 'no reward'};
-which = {ex.r_cond, ex.nor_cond};
+which = {ex.clamp == 1, ex.clamp == 0};
 
 ax = -10:30;
 clear v;
