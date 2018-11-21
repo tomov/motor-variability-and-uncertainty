@@ -17,3 +17,4 @@ function plot_w(agent, scaled)
     end
 
     hold off;
+    xlabel('angle');

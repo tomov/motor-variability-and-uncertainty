@@ -10,7 +10,7 @@ figure;
 %
 
 subplot(2,1,1);
-plot(ex.a(1:500), '+');
+plot(ex.a(1:500), 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
 hold on;
 plot(ex.tar(1:500));
 hold off;
