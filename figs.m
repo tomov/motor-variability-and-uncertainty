@@ -1,6 +1,4 @@
-figure;
 
-% TODO animation drawnow
 
 % plot Q-values & UCBs
 %
@@ -10,6 +8,7 @@ as = agent.a_min : agent.da : agent.a_max;
 fill([as flip(as)], [Q + U * agent.UCB_coef flip(Q - U * agent.UCB_coef)], [0.7 0.7 0.7]);
 hold on;
 plot(as, Q);
+plot(a, Q(find(as == a)), 'o', 'color', 'black', 'markerfacecolor', 'black');
 hold off;
 title('Q-values');
 xlabel('angle');

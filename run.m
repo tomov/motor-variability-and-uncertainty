@@ -24,7 +24,9 @@ end
 %}
 
 % stationary context
-ex.tarclamp(round(ex.n*1/3):round(ex.n*2/3)) = 0;
+%ex.tarclamp(round(ex.n*1/3):round(ex.n*2/3)) = 0;
+
+figure;
 
 while ~ex.done
     disp(ex.t);
@@ -36,4 +38,8 @@ while ~ex.done
     r = reward(ex, a);
     agent = update(agent, a, r);
     ex = next_trial(ex, a, r);
+
+    figs;
+    drawnow;
+    pause(0.01);
 end

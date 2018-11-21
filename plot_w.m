@@ -4,7 +4,7 @@ function plot_w(agent, scaled)
         scaled = true;
     end
 
-    a = agent.a_min : agent.da : agent.a_max
+    a = agent.a_min : agent.da : agent.a_max;
     for i = 1:agent.D
         y = agent.basis{i}(a);
         if scaled
