@@ -55,9 +55,10 @@ for bin = 1:length(lb)
     end
     vd(bin) = mean(vb{bin, 2}) - mean(vb{bin, 1});
     vsd(bin) = sqrt(var(vb{bin, 2}) + var(vb{bin, 1}));
-    vsed(bin) = vsd(bin) / sqrt(length(vb{bin, 2}) + length(vb{bin, 1}));
+    vn(bin) = length(vb{bin, 2}) + length(vb{bin, 1});
+    vsed(bin) = vsd(bin) / sqrt(vn(bin));
 
-    subplot(2,4,bin);
+    subplot(3,4,bin+1);
     md = m{2} - m{1};
     sed = sqrt(s{1}.^2 + s{2}.^2) / sqrt(n{1} + n{2}); 
 
@@ -88,7 +89,7 @@ end
 
 % plot population plot (Figure 2C)
 %
-subplot(2,4,bin+1);
+subplot(3,4,9);
 xs = (lb + ub)/2;
 hold on;
 for bin = 1:length(lb)
@@ -98,6 +99,24 @@ end
 errorbar(xs, vd, vsed, 'color', 'black', 'linestyle', 'none');
 hold off;
 xlim([-0.05 1.05]);
-title('population');
 xlabel('performance estimate');
 ylabel('\Delta variability');
+
+
+% plot regulated variability
+%
+rs = 0;
+for s = 1:10
+    rs = rs + 1/10 * (1 - exp(-1/tau)) * exp(-(s-1)/tau);
+end
+%vd = vd / rs; % TODO debug
+
+for bin = 1:length(lb)
+    cvd(bin) = sum(vd(bin:end)); % TODO do it right / normalize by rs
+    cvsed(bin) = sqrt(sum(vsd(bin:end).^2)) / sqrt(sum(vn(bin:end)));
+end
+
+subplot(3,4,10);
+errorbar(xs, cvd, cvsed, 'color', 'black');
+xlabel('performance estimate');
+ylabel('regulated variability');

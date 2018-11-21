@@ -11,9 +11,9 @@ en = round(ex.n*2/3);
 % actions and targets 
 %
 subplot(2,1,1);
-plot([ex.a(1:5000) ex.a(st:st+5000) ex.a(en:en+5000)], '+');
+plot([ex.a(1:2000) ex.a(st:st+2000) ex.a(en:en+2000)], 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
 hold on;
-plot([ex.tar(1:5000) ex.tar(st:st+5000) ex.tar(en:en+5000)]);
+plot([ex.tar(1:2000) ex.tar(st:st+2000) ex.tar(en:en+2000)], 'linewidth', 2);
 hold off;
 xlabel('trial');
 ylabel('press angle');
@@ -79,18 +79,23 @@ for con_idx = 1:3
         end
         vd(bin) = mean(vb{bin, 2}) - mean(vb{bin, 1});
         vsd(bin) = sqrt(var(vb{bin, 2}) + var(vb{bin, 1}));
-        vsed(bin) = vsd(bin) / sqrt(length(vb{bin, 2}) + length(vb{bin, 1}));
+        vn(bin) = length(vb{bin, 2}) + length(vb{bin, 1});
+        vsed(bin) = vsd(bin) / sqrt(vn(bin));
     end
 
 
+    % plot regulated variability
+    %
     subplot(2,3,3+con_idx);
 
-    % plot population plot (Figure 2C)
-    %
     xs = (lb + ub)/2;
-    errorbar(xs, vd, vsed, 'color', 'black');
-    xlabel('performance estimate');
-    ylabel('\Delta variability');
+    for bin = 1:length(lb)
+        cvd(bin) = sum(vd(bin:end)); % TODO do it right / normalize by rs
+        cvsed(bin) = sqrt(sum(vsd(bin:end).^2)) / sqrt(sum(vn(bin:end)));
+    end
+    errorbar(xs, cvd, cvsed, 'color', 'black');
     title(titles{con_idx});
-    ylim([-200 400]);
+    xlabel('performance estimate');
+    ylabel('regulated variability');
+    ylim([-50 520]);
 end
