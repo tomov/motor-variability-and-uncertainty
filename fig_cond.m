@@ -6,7 +6,7 @@ load fig_cond;
 
 figure;
 
-% performance
+% actions and targets
 %
 
 subplot(2,1,1);

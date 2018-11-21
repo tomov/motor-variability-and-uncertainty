@@ -1,3 +1,6 @@
+% Figure 3
+%
+
 clear all;
 load fig_block.mat;
 

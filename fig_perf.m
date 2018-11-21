@@ -34,6 +34,7 @@ for bin = 1:length(lb)
     clear n;
     clear m;
     clear s;
+    % TODO dedupe with fig_cond
     for c_idx = 1:2
         ix = find(which{c_idx});
         for i = 1:length(ix)
