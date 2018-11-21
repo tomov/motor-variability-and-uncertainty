@@ -3,7 +3,7 @@ function ex = init_exp()
     ex.min = -20; % min angle
     ex.max = 20; % max angle
     ex.block_size = 50; % # trials in a block
-    ex.nblocks = 200; % # blocks
+    ex.nblocks = 2000; % # blocks
     ex.n = ex.nblocks * ex.block_size; % # trials
 
     ex.target = rand * (ex.max - ex.min) + ex.min; % target angle
