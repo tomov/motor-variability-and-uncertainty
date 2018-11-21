@@ -17,10 +17,10 @@ function agent = init_agent()
     c = 1;
     C = c * eye(D);
 
-    s = 1; % observation noise variance
+    s = 0.01; % observation noise variance
 
     % transition noise variance i.e. weight diffusion/drift noise
-    q = 0.01;
+    q = 1;
     Q = q * eye(D);
 
     da = 1; % action space resolution
