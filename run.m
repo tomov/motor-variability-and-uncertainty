@@ -4,6 +4,7 @@ agent = init_agent();
 ex = init_exp();
 
 % single conditioned trials
+% TODO mini clamps & block clamps simultaneous
 ex.clamp(randsample(ex.n, ex.n * 0.05)) = 1;
 ex.clamp(randsample(ex.n, ex.n * 0.05)) = 0;
 ex.clamp(1:20) = NaN;
@@ -22,14 +23,15 @@ ex.clamp(end-40:end) = NaN;
 %end
 
 % stationary context
-%ex.tarclamp(round(ex.n*1/3):round(ex.n*2/3)) = 0;
+ex.tarclamp(round(ex.n*1/3):round(ex.n*2/3)) = 0;
 
 figure;
 
 while ~ex.done
     disp(ex.t);
 
-    a = choose_hybrid(agent);
+    %a = choose_hybrid(agent);
+    a = choose_Thompson(agent);
     %a = choose_greedy(agent, 0.9);
     %a = 0;
 
@@ -37,7 +39,7 @@ while ~ex.done
     agent = update(agent, a, r);
     ex = next_trial(ex, a, r);
 
-    figs;
-    drawnow;
-    pause(0.01);
+   % figs;
+   % drawnow;
+   % pause(0.01);
 end

@@ -1,7 +1,7 @@
 % Figure 2
 
-clear all;
-load fig_cond.mat
+%clear all;
+%load fig_cond.mat
 
 figure;
 

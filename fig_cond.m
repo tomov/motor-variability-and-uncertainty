@@ -1,7 +1,7 @@
 % Figure 1 
 
-clear all;
-load fig_cond;
+%clear all;
+%load fig_cond;
 
 
 figure;

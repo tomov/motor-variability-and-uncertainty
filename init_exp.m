@@ -1,5 +1,7 @@
 function ex = init_exp()
 
+    % TODO sessions; each session is 300 trials on avg
+
     ex.min = -20; % min angle
     ex.max = 20; % max angle
     ex.block_size = 50; % # trials in a block
@@ -10,12 +12,13 @@ function ex = init_exp()
 
     ex.t = 1; % trial number
     ex.done = false;
-    ex.bound = 5; % target boundary TODO Ashesh what was it initialized to?
+    ex.bound = 5; % target boundary; w in Ashesh's paper
     ex.r = []; % reward history
     ex.a = []; % action history
     ex.tar = []; % target history
     ex.var = []; % variability history (5-trial sliding window)
     ex.b = []; % bound history
+    ex.p_reward = 1; % probability of getting reward if you're in reward zone
 
     ex.clamp = nan(1, ex.n); % trials with clamped reward probabilities; none by default
     ex.bclamp = nan(1, ex.nblocks); % blocks with clamped rewards

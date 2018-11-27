@@ -1,7 +1,7 @@
 % Figure 5
 
-clear all;
-load fig_context.mat
+%clear all;
+%load fig_context.mat
 
 figure;
 
@@ -98,4 +98,5 @@ for con_idx = 1:3
     xlabel('performance estimate');
     ylabel('regulated variability');
     ylim([-50 520]);
+    xlim([0 1]);
 end
