@@ -1,12 +1,12 @@
 function ex = init_exp()
-
-    % TODO sessions; each session is 300 trials on avg
+    
+    % initialize experimental structure
 
     ex.min = -20; % min angle
     ex.max = 20; % max angle
-    ex.block_size = 50; % # trials in a block
-    ex.nblocks = 2000; % # blocks
-    ex.n = ex.nblocks * ex.block_size; % # trials
+    ex.session_size = 300; % # trials in a session
+    ex.nsessions = 100; % # sessions
+    ex.n = ex.nsessions * ex.session_size; % # trials
 
     ex.target = rand * (ex.max - ex.min) + ex.min; % target angle
 
@@ -18,9 +18,11 @@ function ex = init_exp()
     ex.tar = []; % target history
     ex.var = []; % variability history (5-trial sliding window)
     ex.b = []; % bound history
-    ex.p_reward = 1; % probability of getting reward if you're in reward zone
+    ex.p_reward = 0.81; % probability of getting reward if you're in reward zone = curly R in the paper = p(r=1 | -w/2<=x<=w/2)
 
     ex.clamp = nan(1, ex.n); % trials with clamped reward probabilities; none by default
-    ex.bclamp = nan(1, ex.nblocks); % blocks with clamped rewards
+    ex.bclamp_start = []; % starting trials for block clamps
+    ex.bclamp_dur = []; % duration of block clamps
+    ex.bclamp_r = []; % reward rate for block clamps
     ex.tarclamp = nan(1, ex.n); % trials with fixed targets
 

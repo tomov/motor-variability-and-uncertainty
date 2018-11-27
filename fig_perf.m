@@ -1,4 +1,5 @@
 % Figure 2
+% plot single-trial variability effect (fig_cond) as function of (recent) past performance = performance estimate
 
 %clear all;
 %load fig_cond.mat

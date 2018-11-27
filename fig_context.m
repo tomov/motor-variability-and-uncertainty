@@ -1,4 +1,5 @@
 % Figure 5
+% variability effect in stationary vs. non-stationary target context
 
 %clear all;
 %load fig_context.mat

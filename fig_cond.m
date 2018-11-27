@@ -1,4 +1,5 @@
-% Figure 1 
+% Figure 1 from paper
+% condition single trial, plot variability in reward vs. no reward
 
 %clear all;
 %load fig_cond;

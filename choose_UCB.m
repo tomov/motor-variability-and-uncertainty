@@ -1,5 +1,7 @@
 function [a, Qs, Us, QUs] = choose_UCB(agent)
 
+    % UCB decison based on Kalman filter values & uncertainteis
+
     best.a = NaN;
     best.QU = -Inf;
 

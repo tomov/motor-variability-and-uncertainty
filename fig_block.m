@@ -1,5 +1,5 @@
-% Figure 3
-%
+% Figure 3 
+% block clamp reward rate, plot variability as function of clamped reward rate
 
 %clear all;
 %load fig_block.mat;

@@ -1,5 +1,7 @@
 function [a, QUs] = choose_hybrid(agent)
 
+    % hybrid UCB/Thompson choice based on Kalman filter values & uncertainties
+
     best.a = NaN;
     best.QU = -Inf;
     QUs = [];

@@ -1,5 +1,7 @@
 function [a, Qs] = choose_Thompson(agent)
 
+    % Thompson sampling decison based on Kalman filter values & uncertainteis
+
     best.a = NaN;
     best.Q = -Inf;
     Qs = [];

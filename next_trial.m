@@ -10,10 +10,26 @@ function ex = next_trial(ex, a, r)
         ex.var = [ex.var NaN];
     end
 
-    % switch target every block
-    if mod(ex.t, ex.block_size) == 0
-        % TODO do it properly
-        ex.target = rand * (ex.max - ex.min) + ex.min;
+    % shift boundaries and/or switch target after a session if criteria are met
+    if mod(ex.t, ex.session_size) == 0
+
+        % set reward boundary to keep reward rate around 35%
+        rr = mean(ex.r(end-50, end));
+        if rr < 30 || rr > 40
+            a = sort(abs(ex.a(end-50:end) - ex.tar(end-50:end)));
+            ex.bound = a(18); % 35 percentile
+        end
+
+        % switch target if boundary is too small
+        if ex.bound < 2.3
+            while true
+                target = rand * (ex.max - ex.min) + ex.min;
+                if abs(target - ex.target) > 2.3 % can't be too close to old target
+                    ex.target = target;
+                    break;
+                end
+            end
+        end
     end
 
     % TODO sessions
