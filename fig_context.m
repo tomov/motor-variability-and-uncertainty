@@ -16,6 +16,8 @@ ntrials = 5000;
 plot([ex.a(1:ntrials) ex.a(st:st+ntrials) ex.a(en:en+ntrials)], 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
 hold on;
 plot([ex.tar(1:ntrials) ex.tar(st:st+ntrials) ex.tar(en:en+ntrials)], 'linewidth', 2);
+plot([ntrials ntrials], [agent.a_min agent.a_max], '--', 'color', [0.6 0.6 0.6]);
+plot([2*ntrials 2*ntrials], [agent.a_min agent.a_max], '--', 'color', [0.6 0.6 0.6]);
 hold off;
 xlabel('trial');
 ylabel('press angle');

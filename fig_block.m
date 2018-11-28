@@ -6,8 +6,8 @@
 
 figure;
 
-cols = flip({'blue', 'magenta', 'red'});
-labels = flip({'low', 'medium', 'high'});
+cols = {'blue', 'magenta', 'red'};
+labels = {'low', 'medium', 'high'};
 
 ax = -30 : 130;
 
@@ -38,7 +38,7 @@ for c_idx = 1:3
     hh(c_idx) = plot(ax, m, 'color', cols{c_idx});
 
     h = fill([ax flip(ax)], [m + se flip(m - se)], cols{c_idx});
-    set(h, 'facealpha', 0.3);
+    set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 end
 hold off;
 
@@ -73,7 +73,7 @@ for c_idx = 1:3
     hh(c_idx) = plot(ax, m, 'color', cols{c_idx});
 
     h = fill([ax flip(ax)], [m + se flip(m - se)], cols{c_idx});
-    set(h, 'facealpha', 0.3);
+    set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 end
 hold off;
 

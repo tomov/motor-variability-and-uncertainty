@@ -35,6 +35,7 @@ for bin = 1:length(lb)
     clear n;
     clear m;
     clear s;
+    clear se;
     % TODO dedupe with fig_cond
     for c_idx = 1:2
         ix = find(which{c_idx});
@@ -119,5 +120,6 @@ end
 
 subplot(3,4,10);
 errorbar(xs, cvd, cvsed, 'color', 'black');
+ylim([0 500]);
 xlabel('performance estimate');
 ylabel('regulated variability');

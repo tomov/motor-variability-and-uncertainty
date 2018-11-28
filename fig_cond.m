@@ -11,7 +11,7 @@ figure;
 %
 
 subplot(2,1,1);
-range = 1:2000;
+range = 1:10000;
 hold on;
 h = fill([range flip(range)], [ex.tar(range) + ex.b(range) flip(ex.tar(range) - ex.b(range))], 'red');
 set(h, 'facealpha', 0.3, 'edgecolor', 'none');
@@ -39,6 +39,7 @@ clear hh;
 clear n;
 clear m;
 clear s;
+clear se;
 hold on;
 for c_idx = 1:2
     ix = find(which{c_idx});
