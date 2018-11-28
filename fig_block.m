@@ -8,22 +8,24 @@ figure;
 
 cols = flip({'blue', 'magenta', 'red'});
 labels = flip({'low', 'medium', 'high'});
-which = flip({ex.bclamp == 0.1, ex.bclamp == 0.5, ex.bclamp == 0.9});
 
-ax = -ex.block_size/2 : ex.block_size*3/2;
+ax = -30 : 130;
+
+rs = [0.1 0.35 0.75];
 
 % rewards 
 %
 
 subplot(1,2,1);
 
-clear r;
 hold on;
 for c_idx = 1:3
-    bs = find(which{c_idx});
-    for i = 1:length(bs)
-        b = bs(i);
-        s = (b - 1) * ex.block_size;
+    bix = find(ex.bclamp_r == rs(c_idx));
+    clear r;
+    for i = 1:length(bix)
+        s = ex.bclamp_start(bix(i));
+        d = ex.bclamp_dur(bix(i));
+        e = s + d - 1;
         for j = 1:length(ax)
             t = s + ax(j);
             r(i,j) = ex.r(t);
@@ -51,13 +53,14 @@ ylabel('reward rate');
 
 subplot(1,2,2);
 
-clear v;
+
+
 hold on;
 for c_idx = 1:3
-    bs = find(which{c_idx});
-    for i = 1:length(bs)
-        b = bs(i);
-        s = (b - 1) * ex.block_size;
+    bix = find(ex.bclamp_r == rs(c_idx));
+    clear v;
+    for i = 1:length(bix)
+        s = ex.bclamp_start(bix(i));
         for j = 1:length(ax)
             t = s + ax(j);
             v(i,j) = ex.var(t);

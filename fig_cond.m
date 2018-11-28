@@ -11,9 +11,12 @@ figure;
 %
 
 subplot(2,1,1);
-plot(ex.a(1:500), 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
+range = 1:2000;
 hold on;
-plot(ex.tar(1:500));
+h = fill([range flip(range)], [ex.tar(range) + ex.b(range) flip(ex.tar(range) - ex.b(range))], 'red');
+set(h, 'facealpha', 0.3, 'edgecolor', 'none');
+plot(ex.a(range), 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
+plot(ex.tar(range), 'color', 'red');
 hold off;
 xlabel('trial');
 ylabel('press angle');
@@ -27,6 +30,7 @@ subplot(2,2,3);
 
 cols = {'red', 'blue'};
 labels = {'reward', 'no reward'};
+%which = {~isnan(ex.clamp) & ex.r == 1, ~isnan(ex.clamp) & ex.r == 0}; <-- this is weird! the reward / no-reward trials are dependent b/c of the block clamps
 which = {ex.clamp == 1, ex.clamp == 0};
 
 ax = -10:15;
@@ -56,11 +60,11 @@ for c_idx = 1:2
 
     w = ax < 0;
     h = fill([ax(w) flip(ax(w))], [m{c_idx}(w) + se{c_idx}(w) flip(m{c_idx}(w) - se{c_idx}(w))], cols{c_idx});
-    set(h, 'facealpha', 0.3);
+    set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 
     w = ax >= 5;
     h = fill([ax(w) flip(ax(w))], [m{c_idx}(w) + se{c_idx}(w) flip(m{c_idx}(w) - se{c_idx}(w))], cols{c_idx});
-    set(h, 'facealpha', 0.3);
+    set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 
     %plot([0 0], [60 100], '--', 'color', [0.4 0.4 0.4]);
 end

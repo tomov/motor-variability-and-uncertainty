@@ -4,6 +4,7 @@ function actor = init_policy()
 
     tau = 4.9; % Figure 1F
     d = 10; % number of bins for rr = number of elements in variability control function s
+    T = 100; % time horizon for eligibility trace
 
     actor.sigma_e = 1; % sigma_e = std dev of exploratory variability; from pgParams.e_var0
     actor.sigma_n = sqrt(13.5); % sigma_e,t = std dev of motor noise; from Figure 3D (unregulated variability)
@@ -14,7 +15,8 @@ function actor = init_policy()
     actor.s = rand(1,d) + 0.5; % variability control function sigma (word-end sigma) vector of exploratory variabilities for each (discretized) value of rr
     actor.sigma_sigma = 0.25; % parameter space variability i.e. variability of sigma_e
     actor.E_sigma = zeros(1,d); % eligibility trace for updating s
-    actor.lambda = 0.9; % decay-rate of E_sigma; from pgParams.lambda
+    actor.lambda = 1 - 1/T; % decay-rate of E_sigma; depends on time horizon T (1 or 100 trials); also see pgParams.lambda
     actor.alpha_sigma = 0.05; % learning rate for s; from paper
     actor.d = d; % number of bins for rr = number of elements in variability control function s
     actor.tau = tau; % Figure 1F
+    actor.T = T; % time horizon for eligibility trace

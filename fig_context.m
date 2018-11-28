@@ -12,9 +12,10 @@ en = round(ex.n*2/3);
 % actions and targets 
 %
 subplot(2,1,1);
-plot([ex.a(1:2000) ex.a(st:st+2000) ex.a(en:en+2000)], 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
+ntrials = 5000;
+plot([ex.a(1:ntrials) ex.a(st:st+ntrials) ex.a(en:en+ntrials)], 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
 hold on;
-plot([ex.tar(1:2000) ex.tar(st:st+2000) ex.tar(en:en+2000)], 'linewidth', 2);
+plot([ex.tar(1:ntrials) ex.tar(st:st+ntrials) ex.tar(en:en+ntrials)], 'linewidth', 2);
 hold off;
 xlabel('trial');
 ylabel('press angle');
