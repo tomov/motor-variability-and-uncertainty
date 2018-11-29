@@ -1,4 +1,4 @@
-function actor = policy_update(actor, x, eps_e, eps_sigma, r)
+function actor = update_policy(actor, x, eps_e, eps_sigma, r)
 
     % policy gradient update
 
@@ -9,4 +9,5 @@ function actor = policy_update(actor, x, eps_e, eps_sigma, r)
     bin = floor(actor.d * actor.rr) + 1; % which bin does the reward rate r bar fall into
     R = eq(1:actor.d, bin);
     actor.E_sigma = actor.lambda * actor.E_sigma + eps_sigma * R;
-    actor.s = actor.s + actor.alpha_siga * PE * actor.E_sigma;
+    actor.s = actor.s + actor.alpha_sigma * PE * actor.E_sigma;
+    actor.s(actor.s < 0) = 0; % ensure variability control function >= 0
