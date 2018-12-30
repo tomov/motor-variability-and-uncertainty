@@ -29,7 +29,7 @@ for s = 1:nsess
     r = rewSess{rat, stationary}(s,:);
     clamp = probRewSess{rat, stationary}(s,:);
     for i = 1:sess_size
-        t = s * (nsess - 1) + i;
+        t = (s - 1) * sess_size + i;
         ex.tar(t) = tar(s);
         ex.a(t) = da(i) + tar(s);
         ex.b(t) = b(s);
@@ -43,3 +43,6 @@ for s = 1:nsess
         end
     end
 end
+
+
+fig_raw;
