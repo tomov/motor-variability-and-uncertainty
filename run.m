@@ -12,8 +12,8 @@ ex = stationary(ex);
 while ~ex.done
     disp(ex.t);
 
-    %a = choose_hybrid(agent);
-    a = choose_Thompson(agent);
+    a = choose_hybrid(agent);
+    %a = choose_Thompson(agent);
     %a = choose_greedy(agent, 0.9);
     %a = 0;
 

@@ -27,9 +27,9 @@ for t = 1:length(ex.a)
     end
 
 
-    if second_last_cnt >= 300 && last_cnt >= 300 && cnt >= 20
+    if second_last_cnt >= 600 && last_cnt >= 600 && cnt >= 30
         % we have enough time points
-        trials = t-15:t;
+        trials = t-25:t;
 
         if second_last_tar >= -20 && second_last_tar <= -10 && last_tar >= 10 && last_tar <= 20
             % went from left to right, then went...
