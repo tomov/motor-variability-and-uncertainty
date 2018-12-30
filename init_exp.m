@@ -13,11 +13,11 @@ function ex = init_exp()
     ex.t = 1; % trial number
     ex.done = false;
     ex.bound = 5; % target boundary; w in Ashesh's paper
-    ex.r = []; % reward history
-    ex.a = []; % action history
-    ex.tar = []; % target history
-    ex.var = []; % variability history (5-trial sliding window)
-    ex.b = []; % bound history
+    ex.r = nan(1, ex.n); % reward history
+    ex.a = nan(1, ex.n); % action history
+    ex.tar = nan(1, ex.n); % target history
+    ex.var = nan(1, ex.n); % variability history (5-trial sliding window)
+    ex.b = nan(1, ex.n); % bound history
     ex.p_reward = 0.81; % probability of getting reward if you're in reward zone = curly R in the paper = p(r=1 | -w/2<=x<=w/2)
 
     ex.clamp = nan(1, ex.n); % trials with clamped reward probabilities; none by default

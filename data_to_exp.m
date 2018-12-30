@@ -1,4 +1,4 @@
-% fig_cond.m using actual data
+% convert real data to format similar to init_exp()
 %
 
 load('from_paper/task_learn_curves (1).mat');

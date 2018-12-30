@@ -5,7 +5,7 @@ function actor = init_policy()
     tau = 4.9; % 4.9 in Figure 1F, but pgParams.tau = 5.1 TODO ashesh?
     %d = 10; % number of bins for rr = number of elements in variability control function s
     d = 7;  % based on Figure 4B in paper
-    T = 100; % time horizon for eligibility trace (1 = short timescale, 100 = long timescale; 10 based on pgParams.lambda)
+    T = 10; % time horizon for eligibility trace (1 = short timescale, 100 = long timescale; 10 based on pgParams.lambda)
 
     actor.sigma_e = 1; % sigma_e = std dev of exploratory variability; from pgParams.e_var0
     actor.sigma_n = sqrt(13.5); % sigma_e,t = std dev of motor noise; from Figure 3D (unregulated variability); pgParams.n_var ???
