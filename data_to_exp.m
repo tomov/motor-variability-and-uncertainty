@@ -3,7 +3,7 @@
 
 load('from_paper/task_learn_curves (1).mat');
 
-rat = 1;
+rat = 4;
 stationary = 1;
 
 tar = targs{rat, stationary};
@@ -45,4 +45,4 @@ for s = 1:nsess
 end
 
 
-fig_raw;
+%fig_raw;

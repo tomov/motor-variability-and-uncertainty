@@ -77,8 +77,8 @@ for bin = 1:length(lb)
     set(h, 'facealpha', 0.3, 'edgecolor', 'none');
     hold off;
 
-    %ylim([-50 200]);
-    ylim([-5 20]);
+    ylim([-50 200]);
+    %ylim([-5 20]);
     title(sprintf('%.2f-%.2f', lb(bin), ub(bin)));
 
     if bin == 6
@@ -121,7 +121,7 @@ end
 
 subplot(3,4,10);
 errorbar(xs, cvd, cvsed, 'color', 'black');
-%ylim([0 500]);
-ylim([-5 40]);
+ylim([0 500]);
+%ylim([-5 40]);
 xlabel('performance estimate');
 ylabel('regulated variability');
