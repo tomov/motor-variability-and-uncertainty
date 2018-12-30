@@ -9,6 +9,9 @@ figure;
 st = round(ex.n*1/3);
 en = round(ex.n*2/3);
 
+a_min = -30;
+a_max = 30;
+
 % actions and targets 
 %
 subplot(2,1,1);
@@ -16,8 +19,8 @@ ntrials = 5000;
 plot([ex.a(1:ntrials) ex.a(st:st+ntrials) ex.a(en:en+ntrials)], 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
 hold on;
 plot([ex.tar(1:ntrials) ex.tar(st:st+ntrials) ex.tar(en:en+ntrials)], 'linewidth', 2);
-plot([ntrials ntrials], [agent.a_min agent.a_max], '--', 'color', [0.6 0.6 0.6]);
-plot([2*ntrials 2*ntrials], [agent.a_min agent.a_max], '--', 'color', [0.6 0.6 0.6]);
+plot([ntrials ntrials], [a_min a_max], '--', 'color', [0.6 0.6 0.6]);
+plot([2*ntrials 2*ntrials], [a_min a_max], '--', 'color', [0.6 0.6 0.6]);
 hold off;
 xlabel('trial');
 ylabel('press angle');
@@ -101,6 +104,7 @@ for con_idx = 1:3
     title(titles{con_idx});
     xlabel('performance estimate');
     ylabel('regulated variability');
-    ylim([-50 520]);
+    %ylim([-50 520]);
+    ylim([-10 30]);
     xlim([0 1]);
 end
