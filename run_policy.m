@@ -5,7 +5,7 @@ ex = init_exp();
 
 ex = block_clamp(ex);
 ex = mini_clamp(ex);
-ex = stationary(ex);
+%ex = stationary(ex);
 
 actor.s = actor.s_T1
 do_update_s = false;

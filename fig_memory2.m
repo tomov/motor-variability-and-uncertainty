@@ -1,4 +1,4 @@
-% test for memory by seeing whether farter targets are learned faster
+% test for memory by seeing whether farter targets are learned faster / slower
 %
 
 

@@ -31,8 +31,8 @@ function ex = next_trial(ex, a, r)
                     break;
                 end
             end
-            %ex.bound = a(18); % 35 percentile <-- this is what Ashesh did (see fig_cond_data.m)
-            ex.bound = 5;
+            ex.bound = a(18); % 35 percentile <-- this is what Ashesh did (see fig_cond_data.m)
+            %ex.bound = 5;
         end
     end
 
