@@ -2,8 +2,8 @@ function agent = init_agent()
 
     % Init agent for Kalman filtering 
 
-    a_min = -30; % min angle
-    a_max = 30; % max angle
+    a_min = -20; % min angle
+    a_max = 20; % max angle
     D = 10; % # of basis f'ns
     sigma = (a_max - a_min) / D; % var of basis f'ns
 

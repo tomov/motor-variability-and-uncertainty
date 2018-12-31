@@ -1,6 +1,11 @@
 % test for memory by seeing whether farter targets are learned faster
 %
 
+% first create ex from data e.g. using
+% ex = rat_to_exp(1,1)
+% or
+% data_to_exp
+
 tar = NaN;
 cnt = 0;
 
@@ -30,8 +35,8 @@ diff = sess_tar(2:end) - sess_tar(1:end-1);
 diff = [NaN diff];
 diff = abs(diff);
 
-%figure;
-%scatter(sess_cnt, diff);
+figure;
+scatter(sess_cnt, diff);
 
 nansem = @(x) nanstd(x) / sqrt(sum(~isnan(x)));
 sem = @(x) nanstd(x) / sqrt(length(x));

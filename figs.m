@@ -40,9 +40,13 @@ xlabel('trial');
 % plot choices
 %
 subplot(2,2,4);
-plot(ex.a, '+');
+range = 1:ex.t-1;
+h = fill([range flip(range)], [ex.tar(range) + ex.b(range) flip(ex.tar(range) - ex.b(range))], 'blue');
+set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 hold on;
-plot(ex.tar);
+plot(range(ex.r == 0), ex.a(ex.r == 0), '+', 'color', 'red');
+plot(range(ex.r == 1), ex.a(ex.r == 1), '+', 'color', 'green');
+plot(ex.tar, 'color', 'blue');
 hold off;
 xlabel('trial');
 ylabel('press angle');
