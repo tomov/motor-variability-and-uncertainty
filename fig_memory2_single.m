@@ -1,63 +1,74 @@
-% fig_memory2 but for single ex
+% fig_memory2 helper
+% test for memory by seeing whether farter targets are learned faster
 
-figure;
+function [r, p] = fig_memory2_single(ex, rat, nrats)
 
-tar = NaN;
-cnt = 0;
+    tar = NaN;
+    cnt = 0;
 
-sess_tar = [];
-sess_cnt = [];
+    sess_tar = [];
+    sess_cnt = [];
 
-for t = 1:length(ex.a)
-    if tar ~= ex.tar(t)
-        % target switched
-        %
-        if ~isnan(tar)
-            sess_cnt = [sess_cnt cnt];
-            sess_tar = [sess_tar tar];
+    for t = 1:length(ex.a)
+        if tar ~= ex.tar(t)
+            % target switched
+            %
+            if ~isnan(tar)
+                sess_cnt = [sess_cnt cnt];
+                sess_tar = [sess_tar tar];
+            end
+
+            tar = ex.tar(t);
+            cnt = 1;
+        else
+            cnt = cnt + 1;
         end
-
-        tar = ex.tar(t);
-        cnt = 1;
-    else
-        cnt = cnt + 1;
     end
-end
 
-sess_cnt = [sess_cnt cnt];
-sess_tar = [sess_tar tar];
+    sess_cnt = [sess_cnt cnt];
+    sess_tar = [sess_tar tar];
 
+    diff = sess_tar(2:end) - sess_tar(1:end-1);
+    diff = [NaN diff];
+    diff = abs(diff);
 
-diff = sess_tar(2:end) - sess_tar(1:end-1);
-diff = [NaN diff];
-diff = abs(diff);
+    second_half = diff >= nanmedian(diff);
 
+    subplot(2,nrats,rat);
+    x = diff(second_half);
+    y = sess_cnt(second_half);
+    scatter(x, y);
+    lsline;
+    [r, p] = corr(x', y');
+    xlabel('distance to new target');
+    ylabel('# sessions to learn new target');
 
-subplot(2,1,1);
-scatter(sess_cnt, diff);
-lsline;
+    nansem = @(x) nanstd(x) / sqrt(sum(~isnan(x)));
+    sem = @(x) nanstd(x) / sqrt(length(x));
 
-nansem = @(x) nanstd(x) / sqrt(sum(~isnan(x)));
-sem = @(x) nanstd(x) / sqrt(length(x));
+    bin_size = 5;
+    m = [];
+    s = [];
+    max_bin = ceil(max(diff) / bin_size);
+    max_cnt = 0;
+    for bin = 1:max_bin
+        d_min = (bin - 1) * bin_size;
+        d_max = bin * bin_size;
+        which = diff >= d_min & diff < d_max;
+        cnts = sess_cnt(which);
 
-bin_size = 5;
-m = [];
-s = [];
-for bin = 1:ceil(max(diff) / bin_size)
-    d_min = (bin - 1) * bin_size;
-    d_max = bin * bin_size;
-    which = diff >= d_min & diff < d_max;
-    cnts = sess_cnt(which);
+        m(bin) = mean(cnts);
+        s(bin) = sem(cnts);
+    end
 
-    m(bin) = mean(cnts);
-    s(bin) = sem(cnts);
-end
+    subplot(2,nrats,rat+nrats);
+    bar(m);
+    hold on;
+    errorbar(m, s, 'LineStyle', 'none', 'color', 'black');
+    med = (max_bin + 1) / 2;
+    plot([med med], ylim, '--', 'color', [0.3 0.3 0.3]);
+    hold off;
+    set(gca, 'xtick', []);
 
-subplot(2,1,2);
-bar(m);
-hold on;
-errorbar(m, s, 'LineStyle', 'none', 'color', 'black');
-hold off;
-
-xlabel('distance to new target');
-ylabel('# sessions to learn new target');
+    xlabel('distance to new target');
+    ylabel('# sessions to learn new target');

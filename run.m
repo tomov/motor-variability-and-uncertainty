@@ -5,7 +5,7 @@ ex = init_exp();
 
 ex = block_clamp(ex);
 ex = mini_clamp(ex);
-ex = stationary(ex);
+%ex = stationary(ex);
 
 %figure;
 
