@@ -27,7 +27,7 @@ for t = 1:length(ex.a)
     end
 
 
-    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == 50
+    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == 40
         % we have enough time points
         trials = t-5:t;
 
