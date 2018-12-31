@@ -3,7 +3,7 @@
 
 load('from_paper/task_learn_curves (1).mat');
 
-rat = 4;
+rat = 7;
 stationary = 1;
 
 tar = targs{rat, stationary};

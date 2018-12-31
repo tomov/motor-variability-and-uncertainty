@@ -1,5 +1,5 @@
 % test whether there is "memory" for past target angles
-% see if subject does better if a past angle is 
+% see if subject does better if an old target pops up again
 %
 
 
@@ -27,7 +27,62 @@ for t = 1:length(ex.a)
     end
 
 
-    if second_last_cnt >= 600 && last_cnt >= 600 && cnt >= 30
+    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == 50
+        % we have enough time points
+        trials = t-5:t;
+
+        if abs(second_last_tar - last_tar) > 10
+            % the last two targets are far apart
+            %
+            if second_last_tar >= min(tar, last_tar) && second_last_tar <= max(tar, last_tar) && abs(tar - second_last_tar) <= 5
+                % old target between previous & new target
+                %
+                mse = immse(ex.tar(trials), ex.a(trials));
+                mses{1} = [mses{1} mse];
+                fprintf('A: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
+
+            elseif tar >= min(second_last_tar, last_tar) && tar <= max(second_last_tar, last_tar)
+                % new target between old & previous target
+                %
+                mse = immse(ex.tar(trials), ex.a(trials));
+                mses{2} = [mses{2} mse];
+                fprintf('B: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
+            end
+
+        end
+    end
+
+    %{
+    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == 30
+        % we have enough time points
+        trials = t-25:t;
+
+        if abs(second_last_tar - last_tar) > 15 
+            % the last two targets are far apart
+            %
+            if second_last_tar >= min(tar, last_tar) && second_last_tar <= max(tar, last_tar) && abs(tar - second_last_tar) <= 5
+                % old target between previous & new target
+                %
+                mse = immse(ex.tar(trials), ex.a(trials));
+                mses{1} = [mses{1} mse];
+                fprintf('A: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
+
+            elseif tar >= min(second_last_tar, last_tar) && tar <= max(second_last_tar, last_tar)
+                % new target between old & previous target
+                %
+                mse = immse(ex.tar(trials), ex.a(trials));
+                mses{2} = [mses{2} mse];
+                fprintf('B: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
+            end
+
+        end
+    end
+    %}
+
+
+
+    %{
+    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == 30
         % we have enough time points
         trials = t-25:t;
 
@@ -64,6 +119,7 @@ for t = 1:length(ex.a)
             end
         end
     end
+    %}
 end
 
 
@@ -79,3 +135,4 @@ hold on;
 errorbar(m, s, 'LineStyle', 'none', 'color', 'black');
 hold off;
 xticklabels({'old target', 'new target'});
+ylabel('mse');
