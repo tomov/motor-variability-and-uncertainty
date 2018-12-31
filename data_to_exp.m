@@ -3,6 +3,8 @@
 clear all;
 
 
+load('from_paper/task_learn_curves (1).mat');
+
 nrats = size(targs, 1);
 
 
