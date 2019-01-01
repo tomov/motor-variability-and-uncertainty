@@ -153,6 +153,6 @@ hold on;
 errorbar(m, s, 'LineStyle', 'none', 'color', 'black');
 hold off;
 xticklabels({'old target', 'new target'});
-ylabel('mse');
+%ylabel('mse');
 
 title(['rat ', num2str(rat)]);

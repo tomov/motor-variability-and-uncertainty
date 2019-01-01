@@ -32,7 +32,12 @@ function [r, p] = fig_memory2_single(ex, rat, nrats)
     diff = [NaN diff];
     diff = abs(diff);
 
-    second_half = diff >= nanmedian(diff);
+    %second_half = diff >= nanmedian(diff);
+    frac = 0.3;
+    d = diff(~isnan(diff));
+    d = sort(d);
+    idx = round(frac * length(d));
+    second_half = diff >= d(idx);
 
     subplot(2,nrats,rat);
     x = diff(second_half);
@@ -65,7 +70,7 @@ function [r, p] = fig_memory2_single(ex, rat, nrats)
     bar(m);
     hold on;
     errorbar(m, s, 'LineStyle', 'none', 'color', 'black');
-    med = (max_bin + 1) / 2;
+    med = (max_bin + 1) * frac;
     plot([med med], ylim, '--', 'color', [0.3 0.3 0.3]);
     hold off;
     set(gca, 'xtick', []);
