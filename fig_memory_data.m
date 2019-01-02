@@ -8,15 +8,21 @@ load rats_all.mat;
 nrats = length(ex_rats);
 figure;
 
-rs = [];
+g = [];
 
 for rat = 1:nrats
 
     stationary = 1;
     ex = ex_rats(rat);
 
-    r = fig_memory_single(ex, rat, nrats);
+    [mses] = fig_memory_single(ex, rat, nrats);
     title(['rat ', num2str(rat)]);
-    rs = [rs r];
+
+    m = [nanmean(mses{1}) nanmean(mses{2})];
+    g = [g m(1) > m(2)];
 end
 
+p = binopdf(sum(g), length(g), 0.5);
+g
+sum(g) / length(g)
+p

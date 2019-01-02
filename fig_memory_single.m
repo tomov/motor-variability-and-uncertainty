@@ -19,6 +19,12 @@ start = NaN;
 
 ranges = {[], []};
 vlines = {[], []};
+
+if ismember(rat, [4, 6, 8])
+    thresh = 4;
+else
+    thresh = 1;
+end
  
 for t = 1:length(ex.a)
     if tar ~= ex.tar(t)
@@ -37,14 +43,14 @@ for t = 1:length(ex.a)
     end
 
 
-    if second_last_cnt >= 600 && last_cnt >= 300 && cnt == 40
+    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == 40
         % we have enough time points
-        trials = t-5:t;
+        trials = t-39:t;
 
         if abs(second_last_tar - last_tar) > 10
             % the last two targets are far apart
             %
-            if second_last_tar >= min(tar, last_tar) && second_last_tar <= max(tar, last_tar) && abs(tar - second_last_tar) <= 5
+            if second_last_tar >= min(tar, last_tar) && second_last_tar <= max(tar, last_tar) && abs(tar - second_last_tar) <= thresh
                 % old target between previous & new target
                 %
                 mse = immse(ex.tar(trials), ex.a(trials));
@@ -54,7 +60,7 @@ for t = 1:length(ex.a)
                 ranges{1} = [ranges{1} second_last_start:t+300];
                 vlines{1} = [vlines{1} length(ranges{1})];
 
-            elseif tar >= min(second_last_tar, last_tar) && tar <= max(second_last_tar, last_tar) && abs(tar - last_tar) > 5 && abs(tar - second_last_tar) > 5
+            elseif tar >= min(second_last_tar, last_tar) && tar <= max(second_last_tar, last_tar) %&& abs(tar - last_tar) > 2 && abs(tar - second_last_tar) > 2
                 % new target between old & previous target
                 %
                 mse = immse(ex.tar(trials), ex.a(trials));
@@ -148,11 +154,15 @@ s = [nansem(mses{1}) nansem(mses{2})];
 
 subplot(1, nrats, rat);
 
-bar(m);
+% NOTICE THE FLIPS! makes things easier
+bar(flip(m));
 hold on;
-errorbar(m, s, 'LineStyle', 'none', 'color', 'black');
+errorbar(flip(m), flip(s), 'LineStyle', 'none', 'color', 'black');
 hold off;
-xticklabels({'old target', 'new target'});
-%ylabel('mse');
+xticklabels(flip({'old target', 'new target'}));
+xtickangle(30);
+if rat == 1
+    ylabel('MSE (between press angle and target)');
+end
 
 title(['rat ', num2str(rat)]);
