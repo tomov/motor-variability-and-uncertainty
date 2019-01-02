@@ -48,12 +48,20 @@ for t = 1:length(ex.a)
         trials = t-39:t;
 
         if abs(second_last_tar - last_tar) > 10
+            % -- we weed out nan's when we take the means and sem's
+            %{
+            ex_a = ex.a(trials);
+            which = ~isnan(ex_a);
+            ex_tar = ex.tar(trials);
+            mse = immse(ex_tar(which), ex_a(which));
+            %}
+            mse = immse(ex.tar(trials), ex.a(trials));
+
             % the last two targets are far apart
             %
             if second_last_tar >= min(tar, last_tar) && second_last_tar <= max(tar, last_tar) && abs(tar - second_last_tar) <= thresh
                 % old target between previous & new target
                 %
-                mse = immse(ex.tar(trials), ex.a(trials));
                 mses{1} = [mses{1} mse];
                 fprintf('A: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
 
@@ -63,7 +71,6 @@ for t = 1:length(ex.a)
             elseif tar >= min(second_last_tar, last_tar) && tar <= max(second_last_tar, last_tar) %&& abs(tar - last_tar) > 2 && abs(tar - second_last_tar) > 2
                 % new target between old & previous target
                 %
-                mse = immse(ex.tar(trials), ex.a(trials));
                 mses{2} = [mses{2} mse];
                 fprintf('B: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
 

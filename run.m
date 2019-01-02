@@ -20,7 +20,6 @@ while ~ex.done
 
     r = reward(ex, a);
     agent = update(agent, a, r);
-    ex = next_trial(ex, a, r);
 
     if ex.breaks(ex.t) > 0
         for i = 1:ex.breaks(ex.t)
@@ -31,6 +30,8 @@ while ~ex.done
             %pause(0.01);
         end
     end
+
+    ex = next_trial(ex, a, r);
 
     %if ex.t >= 250
     %    figs;
