@@ -30,7 +30,7 @@ for i = 1:length(bix)
         t = s + ax(j);
         v{k}(cnt{k},j) = ex.var(t);
     end
-    vv{k}(cnt{k}) = mean(v{k}(cnt{k},ax >= 0 & ax <= 10));
+    vv{k}(cnt{k}) = mean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  mean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     
 end
 
@@ -75,5 +75,5 @@ hold on;
 errorbar(m, se, 'LineStyle', 'none', 'color', 'black');
 hold off;
 xticklabels(labels);
-ylabel('variability');
-xlabel('first 10 trials after switch');
+ylabel('\Delta variability');
+xlabel('first 10 trials after switch - last 10 trials before switch');
