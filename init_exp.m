@@ -18,6 +18,7 @@ function ex = init_exp()
     ex.tar = nan(1, ex.n); % target history
     ex.var = nan(1, ex.n); % variability history (5-trial sliding window)
     ex.b = nan(1, ex.n); % bound history
+    ex.breaks = zeros(1, ex.n); % "breaks" i.e. how many non-feedback "trials" to insert after each trial
     ex.p_reward = 0.81; % probability of getting reward if you're in reward zone = curly R in the paper = p(r=1 | -w/2<=x<=w/2)
 
     ex.clamp = nan(1, ex.n); % trials with clamped reward probabilities; none by default
