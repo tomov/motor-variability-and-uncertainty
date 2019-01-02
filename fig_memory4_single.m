@@ -2,7 +2,7 @@
 % test whether there is "memory" for past target angles
 % see if new target is learned faster when it is closer to old target (i.e. when jump was in direction of old target)
 %
-function [mses, ranges, vlines] = fig_memory_single(ex, rat, nrats)
+function [rs, ps, mses, ranges, vlines] = fig_memory_single(ex, rat, nrats)
 
 
 mses = {[], []};
@@ -46,7 +46,10 @@ for t = 1:length(ex.a)
         trials = t-39:t;
 
         if abs(second_last_tar - last_tar) > 0
-            mse = immse(ex.tar(trials), ex.a(trials));
+            ex_a = ex.a(trials);
+            which = ~isnan(ex_a);
+            ex_tar = ex.tar(trials);
+            mse = immse(ex_tar(which), ex_a(which));
             dist = abs(tar - last_tar);
 
             if last_tar >= min(tar, second_last_tar) && last_tar <= max(tar, second_last_tar)
@@ -82,6 +85,9 @@ xlabel('distance');
 ylabel('MSE');
 title('new target away from old target');
 
+[r, p] = corr(dists{1}', mses{1}')
+rs(1) = r;
+ps(1) = p;
 
 subplot(2,nrats,rat + nrats);
 scatter(dists{2}, mses{2});
@@ -89,6 +95,12 @@ lsline;
 xlabel('distance');
 ylabel('MSE');
 title('new target towards old target');
+
+[r, p] = corr(dists{2}', mses{2}')
+rs(2) = r;
+ps(2) = p;
+
+save shit.mat;
 
 %nansem = @(x) nanstd(x) / sqrt(sum(~isnan(x)));
 %
