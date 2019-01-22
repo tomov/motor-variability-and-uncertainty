@@ -20,3 +20,7 @@ function [a, Qs] = choose_Thompson(agent)
     end
 
     a = best.a;
+
+    a = a + normrnd(0, agent.sigma_n);
+    a = min(a, agent.a_max);
+    a = max(a, agent.a_min);

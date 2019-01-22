@@ -13,7 +13,7 @@ plot([ex.target ex.target], [-1 1.5], '-', 'color', [0.5 0.5 0.5], 'linewidth', 
 plot([ex.target - ex.bound ex.target - ex.bound], [-1 1.5], '--', 'color', [0.5 0.5 0.5], 'linewidth', 1);
 plot([ex.target + ex.bound ex.target + ex.bound], [-1 1.5], '--', 'color', [0.5 0.5 0.5], 'linewidth', 1);
 
-plot(a, Q(find(as == a)), 'o', 'color', 'black', 'markerfacecolor', 'black'); % last action
+plot(a, Q(find(as == round(a))), 'o', 'color', 'black', 'markerfacecolor', 'black'); % last action
 
 hold off;
 title('Q-values');

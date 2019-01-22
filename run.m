@@ -6,9 +6,9 @@ ex = init_exp();
 ex = block_clamp(ex);
 ex = mini_clamp(ex);
 %ex = stationary(ex);
-ex = breaks(ex);
+%ex = breaks(ex);
 
-%figure;
+figure;
 
 while ~ex.done
     disp(ex.t);
@@ -34,8 +34,9 @@ while ~ex.done
     ex = next_trial(ex, a, r);
 
     %if ex.t >= 250
-    %    figs;
-    %    drawnow;
-    %    pause(0.01);
-    %end
+    if ex.t >= 250
+        figs;
+        drawnow;
+        pause(0.01);
+    end
 end

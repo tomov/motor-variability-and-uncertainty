@@ -7,6 +7,8 @@ function agent = init_agent()
     D = 10; % # of basis f'ns
     sigma = (a_max - a_min) / D; % var of basis f'ns
 
+    sigma_n = sqrt(13.5); % sigma_e,t = std dev of motor noise; from Figure 3D (unregulated variability); pgParams.n_var ???
+
     assert(D > 1);
     for i = 1:D
         mu(i,:) = (a_max - a_min) * (i - 1) / (D - 1) + a_min; % mean of basis f'n i
@@ -43,4 +45,5 @@ function agent = init_agent()
     agent.Q = Q;
     agent.da = da;
     agent.UCB_coef = UCB_coef;
+    agent.sigma_n = sigma_n;
 
