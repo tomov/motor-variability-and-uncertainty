@@ -42,4 +42,8 @@ function ex = rat_to_exp(rat, stationary)
         end
     end
 
+    ex.rat_idx = rat;
+    ex.is_stationary = false;
+    ex.there_are_blocks = false;
+
 end

@@ -1,4 +1,5 @@
 % convert real data to format similar to init_exp()
+% concatenate all rats into one "super rat"
 %
 clear all;
 
