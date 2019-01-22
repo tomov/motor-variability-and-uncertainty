@@ -3,7 +3,7 @@
 % plot Q-values & UCBs
 %
 subplot(2,2,1);
-[~, Q, U] = choose_UCB(agent);
+[~, Q, U] = choose_Thompson(agent);
 as = agent.a_min : agent.da : agent.a_max;
 fill([as flip(as)], [Q + U * agent.UCB_coef flip(Q - U * agent.UCB_coef)], [0.7 0.7 0.7]); % UCB 
 hold on;
@@ -13,7 +13,7 @@ plot([ex.target ex.target], [-1 1.5], '-', 'color', [0.5 0.5 0.5], 'linewidth', 
 plot([ex.target - ex.bound ex.target - ex.bound], [-1 1.5], '--', 'color', [0.5 0.5 0.5], 'linewidth', 1);
 plot([ex.target + ex.bound ex.target + ex.bound], [-1 1.5], '--', 'color', [0.5 0.5 0.5], 'linewidth', 1);
 
-plot(a, Q(find(as == round(a))), 'o', 'color', 'black', 'markerfacecolor', 'black'); % last action
+plot(a, Q(find(abs(as - a) == min(abs(as - a)))), 'o', 'color', 'black', 'markerfacecolor', 'black'); % last action
 
 hold off;
 title('Q-values');

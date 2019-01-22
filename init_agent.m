@@ -2,8 +2,11 @@ function agent = init_agent()
 
     % Init agent for Kalman filtering 
 
+    
     a_min = -20; % min angle
     a_max = 20; % max angle
+    da = (a_max - a_min) / 24; % action space resolution;  mvncdf doesn't like more than 25 dimensions (see choose_Thompson and loglik_Thompson)
+
     D = 10; % # of basis f'ns
     sigma = (a_max - a_min) / D; % var of basis f'ns
 
@@ -27,7 +30,6 @@ function agent = init_agent()
     q = 0.1;
     Q = q * eye(D);
 
-    da = 1; % action space resolution
 
     UCB_coef = 1; % coefficient for upper confidence bound sampling
 
