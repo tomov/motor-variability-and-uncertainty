@@ -1,20 +1,22 @@
-function agent = init_agent(params)
+function agent = init_agent(params, a_min, a_max)
 
     % Init agent for Kalman filtering 
 
-    a_min = -20; % min angle
-    a_max = 20; % max angle
+    if ~exist('a_min', 'var') || ~exist('a_max', 'var')
+        a_min = -20; % min angle
+        a_max = 20; % max angle
+    end
     da = (a_max - a_min) / 24; % action space resolution;  mvncdf doesn't like more than 25 dimensions (see choose_Thompson and loglik_Thompson)
 
     % # of basis f'ns
-    if exist(params, 'var') && length(params) >= 4
+    if exist('params', 'var') && length(params) >= 4
         D = params(4);
     else
         D = 10;
     end
 
     % var of basis f'ns
-    if exist(params, 'var') && length(params) >= 3
+    if exist('params', 'var') && length(params) >= 3
         sigma = params(3);
     else
         sigma = (a_max - a_min) / D; 
@@ -35,15 +37,15 @@ function agent = init_agent(params)
     C = c * eye(D);
 
     % observation noise variance
-    if exist(params, 'var') && length(params) >= 1
-        s = param(1);
+    if exist('params', 'var') && length(params) >= 1
+        s = params(1);
     else
         s = 0.01;
     end
 
     % transition noise variance i.e. weight diffusion/drift noise
-    if exist(params, 'var') && length(params) >= 2
-        q = param(2)
+    if exist('params', 'var') && length(params) >= 2
+        q = params(2);
     else
         q = 0.1;
     end
