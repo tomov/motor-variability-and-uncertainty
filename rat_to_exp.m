@@ -25,7 +25,9 @@ function ex = rat_to_exp(rat, stationary)
     for s = 1:nsess
         da = angSess{rat, stationary}(s,:);
         r = rewSess{rat, stationary}(s,:);
-        clamp = probRewSess{rat, stationary}(s,:);
+        clamp = nan(size(da));
+        which_mini_clamps = probRewSess{rat, stationary}(s,:) == 1;
+        clamp(which_mini_clamps) = r(which_mini_clamps);
         for i = 1:sess_size
             t = (s - 1) * sess_size + i;
             ex.tar(t) = tar(s);
@@ -43,7 +45,7 @@ function ex = rat_to_exp(rat, stationary)
     end
 
     ex.rat_idx = rat;
-    ex.is_stationary = false;
+    ex.is_stationary = stationary == 2;
     ex.there_are_blocks = false;
 
 end
