@@ -39,3 +39,5 @@ for rat = 1:nrats
     ex.r = [ex.r ex_rats(rat).r];
     ex.clamp = [ex.clamp ex_rats(rat).clamp];
 end
+
+% save rats_all.mat

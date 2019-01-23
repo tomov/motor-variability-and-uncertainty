@@ -30,20 +30,19 @@ function ex = rat_to_exp_blocks(rat)
 
     t = 0;
     for s = 1:nsess
-        % da = blkClmps{1}(s).angs; TODO ashesh? or pressDistance? is it delta or absolute? wtf...
-        a = blkClmps{1}(s).angs;
-        r = blkClmps{1}(s).rewards;
+        a = blkClmps{rat}(s).angs;
+        r = blkClmps{rat}(s).rewards;
         clamp = nan(size(a));
         % mini clamps
-        which_mini_clamps = blkClmps{1}(s).inMiniClamp;
+        which_mini_clamps = blkClmps{rat}(s).inMiniClamp;
         clamp(which_mini_clamps) = r(which_mini_clamps);
         % block clamps
-        which_block_clamps = blkClmps{1}(s).inBlockClamp;
-        clamp(which_block_clamps) = blkClmps{1}(s).RewardProb;
+        which_block_clamps = blkClmps{rat}(s).inBlockClamp;
+        clamp(which_block_clamps) = blkClmps{rat}(s).RewardProb;
 
         ex.bclamp_start = [ex.bclamp_start min(find(which_block_clamps))];
         ex.bclamp_dur = [ex.bclamp_dur sum(which_block_clamps)];
-        ex.bclamp_r = [ex.bclamp_r blkClmps{1}(s).RewardProb];
+        ex.bclamp_r = [ex.bclamp_r blkClmps{rat}(s).RewardProb];
 
         for i = 1:length(a)
             t = t + 1;

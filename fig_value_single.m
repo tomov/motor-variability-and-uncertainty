@@ -17,7 +17,7 @@ clear vv;
 cnt = {0, 0};
 for i = 1:length(bix)
     s = ex.bclamp_start(bix(i));
-    rr = mean(ex.r(s-10:s-1)); % value TODO maybe more weighted towards recent rewards?
+    rr = nanmean(ex.r(s-10:s-1)); % value TODO maybe more weighted towards recent rewards?
 
     if rr < r
         k = 1; % higher-than-expected value
@@ -30,7 +30,7 @@ for i = 1:length(bix)
         t = s + ax(j);
         v{k}(cnt{k},j) = ex.var(t);
     end
-    vv{k}(cnt{k}) = mean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  mean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
+    vv{k}(cnt{k}) = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     
 end
 
@@ -40,8 +40,8 @@ subplot(2, nrats, rat);
 
 hold on;
 for k = 1:2
-    m = mean(v{k}, 1);
-    s = std(v{k}, 1);
+    m = nanmean(v{k}, 1);
+    s = nanstd(v{k}, 1);
     se = s / sqrt(size(v{k}, 1)); 
     hh(k) = plot(ax, m, 'color', cols{k});
 
@@ -65,8 +65,8 @@ clear m;
 clear s;
 clear se;
 for k = 1:2
-    m(k) = mean(vv{k});
-    s(k) = std(vv{k});
+    m(k) = nanmean(vv{k});
+    s(k) = nanstd(vv{k});
     se(k) = s(k) / sqrt(length(vv{k})); 
 end
 
@@ -75,5 +75,6 @@ hold on;
 errorbar(m, se, 'LineStyle', 'none', 'color', 'black');
 hold off;
 xticklabels(labels);
+%xtickangle(30);
 ylabel('\Delta variability');
-xlabel('first 10 trials after switch - last 10 trials before switch');
+xlabel({'first 10 trials after switch - ', 'last 10 trials before switch'});
