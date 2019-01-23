@@ -21,3 +21,9 @@ p = binopdf(sum(g), length(g), 0.5);
 g
 sum(g) / length(g)
 p
+
+
+figure;
+fig_value_single(ex, 1, 1);
+title('superrat');
+

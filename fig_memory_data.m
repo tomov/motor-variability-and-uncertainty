@@ -13,9 +13,8 @@ g = [];
 for rat = 1:nrats
 
     stationary = 1;
-    ex = ex_rats(rat);
 
-    [mses] = fig_memory_single(ex, rat, nrats);
+    [mses] = fig_memory_single(ex_rats(rat), rat, nrats);
     title(['rat ', num2str(rat)]);
 
     m = [nanmean(mses{1}) nanmean(mses{2})];
@@ -26,3 +25,7 @@ p = binopdf(sum(g), length(g), 0.5);
 g
 sum(g) / length(g)
 p
+
+figure;
+fig_memory_single(ex, 1, 1);
+title('superrat');

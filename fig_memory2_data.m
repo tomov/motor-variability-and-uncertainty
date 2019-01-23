@@ -12,9 +12,8 @@ rs = [];
 for rat = 1:nrats
 
     stationary = 1;
-    ex = ex_rats(rat);
 
-    r = fig_memory2_single(ex, rat, nrats);
+    r = fig_memory2_single(ex_rats(rat), rat, nrats);
     title(['rat ', num2str(rat)]);
     rs = [rs r];
 end
@@ -24,3 +23,10 @@ frs = atanh(rs);
 [h, p, ci, stats] = ttest(frs);
 stats
 p
+
+figure;
+[r, p] = fig_memory2_single(ex, 1, 1);
+title('superrat');
+r
+p
+
