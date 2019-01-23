@@ -11,3 +11,5 @@ function data = data_to_data
 
         data(rat) = rat_to_exp(rat, stationary);
     end
+
+    save data.mat

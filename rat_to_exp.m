@@ -47,5 +47,6 @@ function ex = rat_to_exp(rat, stationary)
     ex.rat_idx = rat;
     ex.is_stationary = stationary == 2;
     ex.there_are_blocks = false;
+    ex.N = length(ex.a); % for mfit
 
 end
