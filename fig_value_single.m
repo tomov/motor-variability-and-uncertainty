@@ -1,7 +1,7 @@
 % test, for block clamps, whether direction of variability change depends on current value
 % copied stuff from fig_block.m
 
-function fig_value_single(ex, rat, nrats, figtitle)
+function m = fig_value_single(ex, rat, nrats, figtitle)
 
 ax = -30 : 130;
 

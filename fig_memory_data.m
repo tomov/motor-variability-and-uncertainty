@@ -19,7 +19,7 @@ for rat = 1:nrats
     title(['rat ', num2str(rat)]);
 
     m = [nanmean(mses{1}) nanmean(mses{2})];
-    g = [g m(1) > m(2)];
+    g = [g m(1) > m(2)]; % null = chance (1 = policy gradient; note we plot them flipped) 
 end
 
 p = binopdf(sum(g), length(g), 0.5);

@@ -34,7 +34,7 @@ while ~ex.done
     ex = next_trial(ex, a, r);
 
     %if ex.t >= 250
-    if ex.t >= 250
+    if ex.t >= 250 + 300
         figs;
         drawnow;
         pause(0.01);
