@@ -31,6 +31,7 @@ for i = 1:length(bix)
         v{k}(cnt{k},j) = ex.var(t);
     end
     vv{k}(cnt{k}) = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
+    %vv{k}(cnt{k}) = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 5)) -  nanmean(v{k}(cnt{k},ax >= -1 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     
 end
 
