@@ -1,7 +1,26 @@
+function ex = run(params, choicefun, do_plot)
+
+% run simulation with given parameters and choice function
+% returns data == ex
+%
+
 rng default; % repro
 
 %agent = init_agent(results.x(5,:));
-agent = init_agent();
+if ~exist('params', 'var')
+    agent = init_agent();
+else
+    agent = init_agent(params);
+end
+
+if ~exist('choicefun', 'var')
+    choicefun = @choose_Thompson;
+end
+
+if ~exist('do_plot', 'var')
+    do_plot = false;
+end
+
 ex = init_exp();
 
 ex = block_clamp(ex);
@@ -9,13 +28,15 @@ ex = mini_clamp(ex);
 %ex = stationary(ex);
 %ex = breaks(ex);
 
-figure;
+if do_plot
+    figure;
+end
 
 while ~ex.done
-    disp(ex.t);
+    %disp(ex.t);
 
     %a = choose_hybrid(agent);
-    a = choose_Thompson(agent);
+    a = choicefun(agent);
     %a = choose_greedy(agent, 0.9);
     %a = 0;
 
@@ -34,10 +55,10 @@ while ~ex.done
 
     ex = next_trial(ex, a, r);
 
-    %if ex.t >= 250
-   % if ex.t >= 250 + 300
-   %     figs;
-   %     drawnow;
-   %     pause(0.5);
-   % end
+    if do_plot && ex.t >= 250 + 300
+        figs;
+        drawnow;
+        pause(0.01);
+    end
 end
+
