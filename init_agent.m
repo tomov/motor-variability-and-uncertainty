@@ -10,7 +10,7 @@ function agent = init_agent(params, a_min, a_max)
 
     % # of basis f'ns
     if exist('params', 'var') && length(params) >= 4
-        D = params(4);
+        D = floor(params(4)); % TODO does mfit work with discrete vars?
     else
         D = 10;
     end
@@ -43,7 +43,7 @@ function agent = init_agent(params, a_min, a_max)
         s = 0.01;
     end
 
-    % transition noise variance i.e. weight diffusion/drift noise
+    % transition noise variance i.e. process noise variance i.e. weight diffusion/drift noise
     if exist('params', 'var') && length(params) >= 2
         q = params(2);
     else

@@ -1,5 +1,6 @@
 rng default; % repro
 
+%agent = init_agent(results.x(5,:));
 agent = init_agent();
 ex = init_exp();
 
@@ -34,9 +35,9 @@ while ~ex.done
     ex = next_trial(ex, a, r);
 
     %if ex.t >= 250
-    if ex.t >= 250 + 300
-        figs;
-        drawnow;
-        pause(0.01);
-    end
+   % if ex.t >= 250 + 300
+   %     figs;
+   %     drawnow;
+   %     pause(0.5);
+   % end
 end

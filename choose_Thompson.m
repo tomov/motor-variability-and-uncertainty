@@ -1,23 +1,22 @@
-function [a, Qs, Us] = choose_Thompson(agent)
+function [a, mus, sigmas] = choose_Thompson(agent)
 
     % Thompson sampling decison based on Kalman filter values & uncertainteis
 
     best.a = NaN;
     best.Q = -Inf;
-    Qs = [];
-    Us = [];
+    mus = [];
+    sigmas = [];
 
     for a = agent.a_min : agent.da : agent.a_max
         [mu, sigma] = get_values(agent, a);
 
         Q = normrnd(mu, sigma); % Q ~ N(mu, sigma)
-        U = sigma; % UCB
         if Q > best.Q
             best.Q = Q;
             best.a = a;
         end
-        Qs = [Qs Q];
-        Us = [Us U];
+        mus = [mus, mu];
+        sigmas = [sigmas, sigma];
     end
 
     a = best.a;

@@ -9,7 +9,11 @@ function loglik = Thompson_likfun(params, data)
     agent = init_agent(params, min(data.a) - 0.01, max(data.a) + 0.01);
     ex = data;
 
-    fprintf('Evaluating Thompson_likfun for rat #%d, params %f %f\n', ex.rat_idx, params(1), params(2));
+    fprintf('Evaluating Thompson_likfun for rat #%d, params ', ex.rat_idx);
+    for i = 1:length(params)
+        fprintf('%f ', params(i));
+    end
+    fprintf('\n');
 
     niters = min(1000, length(ex.a)); % too slow... can't do all trials
     skip = 13; % only sample lik once every skip trials

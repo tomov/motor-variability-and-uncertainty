@@ -5,7 +5,7 @@ function ex = init_exp()
     ex.min = -20; % min angle
     ex.max = 20; % max angle
     ex.session_size = 300; % # trials in a session
-    ex.nsessions = 1000; % # sessions
+    ex.nsessions = 100; % # sessions
     ex.n = ex.nsessions * ex.session_size; % # trials
 
     ex.target = rand * (ex.max - ex.min) + ex.min; % target angle
