@@ -1,23 +1,26 @@
 % test, for block clamps, whether direction of variability change depends on current value
 % copied stuff from fig_block.m
 
-function m = fig_value_single(ex, rat, nrats, figtitle)
+function [m, dvars, PEs] = fig_value_single(ex, rat, nrats, figtitle)
 
 ax = -30 : 130;
 
-r = [0.35]; % medium blocks only, for now
+rs = [0.1 0.35 0.75];
 
 cols = {'blue', 'red'};
 labels = {'PE > 0', 'PE < 0'};
 
+dvars = [];
+PEs = [];
 
-bix = find(ex.bclamp_r == r);
+bix = find(ismember(ex.bclamp_r, rs));
 clear v;
 clear vv;
 cnt = {0, 0};
 for i = 1:length(bix)
     s = ex.bclamp_start(bix(i));
-    rr = nanmean(ex.r(s-10:s-1)); % value TODO maybe more weighted towards recent rewards?
+    rr = nanmean(ex.r(s-20:s-1)); % value TODO maybe more weighted towards recent rewards?
+    r = ex.bclamp_r(bix(i));
 
     if rr < r
         k = 1; % higher-than-expected value
@@ -29,10 +32,17 @@ for i = 1:length(bix)
     for j = 1:length(ax)
         t = s + ax(j);
         v{k}(cnt{k},j) = ex.var(t);
+        a{k}(cnt{k},j) = ex.a(t);
     end
-    vv{k}(cnt{k}) = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
+
+    %dvar = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
+    %dvar = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 15)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % <-------- YESSS!!!
+    dvar = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 20)) - nanvar(a{k}(cnt{k},ax >= -20 & ax <= -1)); % FUCK YES.....
+    vv{k}(cnt{k}) = dvar; 
     %vv{k}(cnt{k}) = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 5)) -  nanmean(v{k}(cnt{k},ax >= -1 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     
+    dvars = [dvars; dvar];
+    PEs = [PEs; r - rr];
 end
 
 
