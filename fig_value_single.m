@@ -1,7 +1,7 @@
 % test, for block clamps, whether direction of variability change depends on current value
 % copied stuff from fig_block.m
 
-function [m, dvars, PEs] = fig_value_single(ex, rat, nrats, figtitle)
+function [m, dvars, PEs, block_reward, reward_rate_before_block] = fig_value_single(ex, rat, nrats, figtitle)
 
 ax = -30 : 130;
 
@@ -12,6 +12,8 @@ labels = {'PE > 0', 'PE < 0'};
 
 dvars = [];
 PEs = [];
+block_reward = [];
+reward_rate_before_block = [];
 
 bix = find(ismember(ex.bclamp_r, rs));
 clear v;
@@ -43,6 +45,8 @@ for i = 1:length(bix)
     
     dvars = [dvars; dvar];
     PEs = [PEs; r - rr];
+    block_reward = [block_reward; r];
+    reward_rate_before_block = [reward_rate_before_block; rr];
 end
 
 
