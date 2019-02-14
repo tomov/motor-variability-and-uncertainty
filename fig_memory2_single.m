@@ -1,7 +1,7 @@
 % fig_memory2 helper
 % test for memory by seeing whether farter targets are learned faster
 
-function [r, p] = fig_memory2_single(ex, rat, nrats)
+function [r, p, x, y] = fig_memory2_single(ex, rat, nrats)
 
     tar = NaN;
     cnt = 0;
@@ -44,7 +44,9 @@ function [r, p] = fig_memory2_single(ex, rat, nrats)
     y = sess_cnt(second_half);
     scatter(x, y);
     lsline;
-    [r, p] = corr(x', y');
+    x = x';
+    y = y'; 
+    [r, p] = corr(x, y);
     xlabel('distance to new target');
     ylabel('# sessions to learn new target');
 
