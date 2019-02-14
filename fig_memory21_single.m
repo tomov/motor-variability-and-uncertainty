@@ -2,7 +2,7 @@
 % test for memory by seeing whether farter targets are learned faster
 % similar to fig_memory2 helper but split in 2 bins rather than 10
 
-function [r, m] = fig_memory2_single(ex, rat, nrats)
+function [r, m, dist_cat, sess_cnt] = fig_memory2_single(ex, rat, nrats)
 
     tar = NaN;
     cnt = 0;
@@ -60,11 +60,14 @@ function [r, m] = fig_memory2_single(ex, rat, nrats)
     s = [];
     max_bin = ceil(max(diff) / bin_size);
     max_cnt = 0;
+    dist_cat = []; % distance category aka bin for each target
     for bin = 1:max_bin
         d_min = (bin - 1) * bin_size + min(diff);
         d_max = bin * bin_size + min(diff);
         which = diff >= d_min & diff < d_max;
         cnts = sess_cnt(which);
+
+        dist_cat(which) = bin;
 
         m(bin) = mean(cnts);
         s(bin) = sem(cnts);
@@ -81,3 +84,6 @@ function [r, m] = fig_memory2_single(ex, rat, nrats)
 
     xlabel('distance to new target');
     ylabel('# sessions to learn new target');
+
+    dist_cat = categorical(dist_cat');
+    sess_cnt = sess_cnt';

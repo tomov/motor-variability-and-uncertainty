@@ -37,7 +37,7 @@ result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'Fi
 [beta, names, stats] = fixedEffects(result);
 H = [0 1];
 [p, F, DF1, DF2] = coefTest(result, H);
-fprintf('fitglme slope = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', beta(2), p, DF1, DF2, F);
+fprintf('fitglme slope = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
 
 
 
