@@ -12,7 +12,8 @@ declare -a fn_calls=(
                     "recovery(100, 5, @fit_5params_softmax, @() [rand*10, rand*10, rand*10, rand*20+5, 0, rand*10])"
                     "recovery(100, 5, @fit_4params_UCB, @() [rand*10, rand*10, 4, 10, rand*10, rand*10])"
                     "recovery(100, 5, @fit_6params_UCB, @() [rand*10, rand*10, rand*10, rand*20+5, rand*10, rand*10])"
-                    "recovery(100, 5, @fit_5params_Thompson, @() [rand*10, rand*10, rand*10, rand*20+5])"
+                    "recovery(100, 5, @fit_2params_Thompson, @() [rand*10, rand*10])"
+                    "recovery(100, 5, @fit_4params_Thompson, @() [rand*10, rand*10, rand*10, rand*20+5])"
                      )
 
 

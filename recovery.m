@@ -36,7 +36,7 @@ for iter = 1:niters
         disp('got an error while fitting...');
         disp(e);
         % TODO might introduce correlations between parameters
-        rethrow(e);
+        rethrow(e); % rethrow for now
     end
 
     save(filename, '-v7.3'); % save after each iter, just in case
