@@ -1,14 +1,21 @@
-function results = fit_4params_Thompson(rats, nstarts)
+function results = fit_4params_Thompson(rats, nstarts, data, do_save)
 
-%data = data_to_data;
-load data.mat;
+
+if ~exist('nstarts', 'var')
+    nstarts = 5;
+end
+
+if ~exist('data', 'var')
+    %data = data_to_data;
+    load data.mat;
+end
 
 if ~exist('rats', 'var')
     rats = 1:length(data);
 end
 
-if ~exist('nstarts', 'var')
-    nstarts = 5;
+if ~exist('do_save', 'var')
+    do_save = true;
 end
 
 param(1).name = 'observation noise variance s';
@@ -37,4 +44,6 @@ tic
 results = mfit_optimize(Thompson_likfun, param, data(rats), nstarts);
 toc
 
-save('fit_4params_Thompson.mat', '-v7.3');
+if do_save
+    save('fit_4params_Thompson.mat', '-v7.3');
+end

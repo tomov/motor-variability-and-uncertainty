@@ -1,39 +1,32 @@
 % test parameter recovery capabilities of model
 % see https://psyarxiv.com/46mbn/
+function recovery(niters, nstarts, fit_fun, rand_fun)
 
-clear all;
+% example call
+% recovery(100, 5, @fit_4params_Thompson, @() [rand*10, rand*10, 4, 10, 1, 10, 4])
 
-niters = 100;
-
-param(1).name = 'observation noise variance s';
-param(1).logpdf = @(x) log(exp(-x));
-param(1).lb = 0;
-param(1).ub = 10;
-
-param(2).name = 'transition noise variance q';
-param(2).logpdf = @(x) log(exp(-x));
-param(2).lb = 0;
-param(2).ub = 10;
-
-nstarts = 5;
+filename = sprintf('recovery_iters=%d_nstarts=%d_fitfun=%s_randfun=%s.mat', niters, nstarts, func2str(fit_fun), func2str(rand_fun));
+disp(filename)
 
 x_rec = [];
 x_orig = [];
 
 for iter = 1:niters
-    x(1) = rand() * 10;
-    x(2) = rand() * 10;
-    %params(3) = rand() * 10;
-    %params(4) = floor(rand() * 20 + 5);
+    x = rand_fun();
 
-    fprintf('iter %d: params %f %f\n', iter, x(1), x(2));
+    fprintf('iter %d: generated params: ', iter);
+    for i = 1:length(x)
+        fprintf('%f ', x(i));
+    end
+    fprintf('\n');
 
     data = run(x); % simulate 1 rat
     data.rat_idx = 1;
+    data.N = length(data.a); % for mfit
 
     try
         tic
-        results = mfit_optimize(@Thompson_likfun, param, data, nstarts);
+        results = fit_fun(1, nstarts, data, false);
         toc
 
         x_orig = [x_orig; x];
@@ -43,8 +36,9 @@ for iter = 1:niters
         disp('got an error while fitting...');
         disp(e);
         % TODO might introduce correlations between parameters
+        rethrow(e);
     end
 
-    save recovery.mat
+    save(filename, '-v7.3'); % save after each iter, just in case
 end
 

@@ -23,5 +23,8 @@ function [a, Qs, Us, QUs, as, logP] = choose_UCB(agent)
     logP = agent.inv_temp * QUs; % choice prob \propto exp(inv_temp * Q)
     logP = logP - logsumexp(logP); % normalize
     P = exp(logP);
+    P = P / sum(P); % do it again... b/c sometimes still doesn't sum to 1; and then we get NaNs...
 
-    a = as(find(mnrnd(1, P)));
+    choice = mnrnd(1, P);
+    assert(~any(isnan(choice(1))), 'P does not sum to 1 and mvrnd fails');
+    a = as(find(choice));

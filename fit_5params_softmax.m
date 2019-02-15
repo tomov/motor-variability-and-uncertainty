@@ -1,15 +1,21 @@
-function results = fit_5params_softmax(rats, nstarts)
+function results = fit_5params_softmax(rats, nstarts, data, do_save)
 % TODO dedupe w/ fit_6params_UCB
 
-%data = data_to_data;
-load data.mat;
+if ~exist('nstarts', 'var')
+    nstarts = 5;
+end
+
+if ~exist('data', 'var')
+    %data = data_to_data;
+    load data.mat;
+end
 
 if ~exist('rats', 'var')
     rats = 1:length(data);
 end
 
-if ~exist('nstarts', 'var')
-    nstarts = 5;
+if ~exist('do_save', 'var')
+    do_save = true;
 end
 
 param(1).name = 'observation noise variance s';
@@ -32,6 +38,7 @@ param(4).logpdf = @(x) 1; % TODO make sure it works even though we discretize th
 param(4).lb = 5;
 param(4).ub = 25; % = max # actions de to mvncdf
 
+% const
 param(5).name = 'UCB coefficient'; % set to 0 for pure softmax
 param(5).logpdf = @(x) log(exp(-x));
 param(5).lb = 0;

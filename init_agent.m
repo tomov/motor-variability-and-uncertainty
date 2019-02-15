@@ -1,10 +1,11 @@
 function agent = init_agent(params, a_min, a_max)
-    % params(1) = s = observation noise variance
-    % params(2) = q = process/transition/diffusion noise variance
-    % params(3) = sigma = variance of basis functions (Gaussians)
-    % params(4) = D = # of basis functions
-    % params(5) = beta = UCB coefficient
-    % params(6) = tau = inverse softmax temperature
+    % params(1) = s = observation noise variance = 0.01
+    % params(2) = q = process/transition/diffusion noise variance = 0.1
+    % params(3) = sigma = variance of basis functions (Gaussians) = 4
+    % params(4) = D = # of basis functions = 10
+    % params(5) = beta = UCB coefficient = 1
+    % params(6) = tau = inverse softmax temperature = 10
+    % params(7) = ares = action space resolution = 24
 
     % Init agent for Kalman filtering 
 
@@ -12,7 +13,16 @@ function agent = init_agent(params, a_min, a_max)
         a_min = -20; % min angle
         a_max = 20; % max angle
     end
-    da = (a_max - a_min) / 24; % action space resolution;  mvncdf doesn't like more than 25 dimensions (see choose_Thompson and loglik_Thompson)
+
+    % action/angle resolution = how many (- 1) actions to tile the action space
+    if exist('params', 'var') && length(params) >= 7
+        ares = floor(params(7));  % TODO does mfit work with discrete vars?
+        assert(ares <= 24, 'action resolution cannot be greater than 24 b/c of mvncdf');
+    else
+        ares = 24;
+    end
+
+    da = (a_max - a_min) / ares; % action space resolution;  mvncdf doesn't like more than 25 dimensions (see choose_Thompson and loglik_Thompson)
 
     % # of basis f'ns
     if exist('params', 'var') && length(params) >= 4
