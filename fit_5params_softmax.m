@@ -47,7 +47,7 @@ param(5).ub = 0;
 param(6).name = 'inverse softmax temperature';
 param(6).logpdf = @(x) log(exp(-x)); % TODO does it make sense?
 param(6).lb = 0;
-param(6).ub = 100;
+param(6).ub = 10;
 
 UCB_likfun = @(params, data) model_likfun(params, data, @loglik_UCB, 1000, 13);
 

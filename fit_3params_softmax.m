@@ -1,4 +1,5 @@
-function results = fit_6params_UCB(rats, nstarts, data, do_save)
+function results = fit_3params_softmax(rats, nstarts, data, do_save)
+% TODO dedupe w/ fit_6params_UCB
 
 if ~exist('nstarts', 'var')
     nstarts = 5;
@@ -27,20 +28,23 @@ param(2).logpdf = @(x) log(exp(-x));
 param(2).lb = 0;
 param(2).ub = 10;
 
+% const
 param(3).name = 'stdev of basis funcs sigma';
 param(3).logpdf = @(x) log(exp(-x));
-param(3).lb = 0;
-param(3).ub = 10;
+param(3).lb = 4;
+param(3).ub = 4;
 
+% const
 param(4).name = 'number of basis funcs D';
 param(4).logpdf = @(x) 1; % TODO make sure it works even though we discretize this
-param(4).lb = 5;
-param(4).ub = 25; % = max # actions de to mvncdf
+param(4).lb = 10;
+param(4).ub = 10; % = max # actions de to mvncdf
 
+% const
 param(5).name = 'UCB coefficient'; % set to 0 for pure softmax
 param(5).logpdf = @(x) log(exp(-x));
 param(5).lb = 0;
-param(5).ub = 10;
+param(5).ub = 0;
 
 param(6).name = 'inverse softmax temperature';
 param(6).logpdf = @(x) log(exp(-x)); % TODO does it make sense?
@@ -53,4 +57,4 @@ tic
 results = mfit_optimize(UCB_likfun, param, data(rats), nstarts);
 toc
 
-save('fit_6params_UCB.mat', '-v7.3');
+save('fit_3params_softmax.mat', '-v7.3');
