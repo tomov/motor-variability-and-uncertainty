@@ -5,7 +5,7 @@ function [loglik, lik, Mu, Covar] = loglik_Thompson(agent, chosen_a)
     % 
 
     % find closest angle
-    % no need to
+    % => NO NEED TO; we compute it exactly w.r.t the chosen angle, basically using the other (discretized) angles to normalize the probability
     %{
     closest_a = Inf;
     for a = agent.a_min : agent.da : agent.a_max
@@ -30,7 +30,7 @@ function [loglik, lik, Mu, Covar] = loglik_Thompson(agent, chosen_a)
     Mu = [];
     Covar = [];
 
-    [mu_chosen, sigma_chosen] = get_values(agent, chosen_a);
+    [mu_chosen, sigma_chosen] = get_values(agent, chosen_a); % compute w.r.t. chosen angle TODO make sure this is legit (instead of finding closest discrete angle)
 
     i = 0;
     for a = agent.a_min : agent.da : agent.a_max

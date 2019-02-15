@@ -31,8 +31,10 @@ param(4).logpdf = @(x) 1; % TODO make sure it works even though we discretize th
 param(4).lb = 5;
 param(4).ub = 25; % = max # actions de to mvncdf
 
+Thompson_likfun = @(params, data) model_likfun(params, data, @loglik_Thompson, 1000, 13);
+
 tic
-results = mfit_optimize(@Thompson_likfun, param, data(rats), nstarts);
+results = mfit_optimize(Thompson_likfun, param, data(rats), nstarts);
 toc
 
 save('mfit_4params_results_Thompson.mat', '-v7.3');

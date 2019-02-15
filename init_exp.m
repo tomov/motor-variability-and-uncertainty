@@ -1,4 +1,8 @@
-function ex = init_exp()
+function ex = init_exp(nsessions)
+
+    if ~exist('nsessions', 'var')
+        nsessions = 100;
+    end
     
     % initialize experimental structure
 

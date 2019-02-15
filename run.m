@@ -1,4 +1,4 @@
-function ex = run(params, choicefun, do_plot)
+function [ex, agent] = run(params, choicefun, do_plot)
 
 % run simulation with given parameters and choice function
 % returns data == ex
@@ -7,14 +7,17 @@ function ex = run(params, choicefun, do_plot)
 rng default; % repro
 
 %agent = init_agent(results.x(5,:));
-if ~exist('params', 'var')
+if ~exist('params', 'var') || isempty(params)
     agent = init_agent();
 else
     agent = init_agent(params);
 end
 
-if ~exist('choicefun', 'var')
-    choicefun = @choose_Thompson;
+if ~exist('choicefun', 'var') || isempty(choicefun)
+    %choicefun = @choose_Thompson;
+    %choicefun = @choose_hybrid;
+    choicefun = @choose_UCB;
+    %choicefun = @(agent) choose_greedy(agent, 0.9);
 end
 
 if ~exist('do_plot', 'var')
@@ -35,9 +38,7 @@ end
 while ~ex.done
     %disp(ex.t);
 
-    %a = choose_hybrid(agent);
     a = choicefun(agent);
-    %a = choose_greedy(agent, 0.9);
     %a = 0;
 
     r = reward(ex, a);

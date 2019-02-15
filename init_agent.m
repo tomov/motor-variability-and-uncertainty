@@ -1,4 +1,10 @@
 function agent = init_agent(params, a_min, a_max)
+    % params(1) = s = observation noise variance
+    % params(2) = q = process/transition/diffusion noise variance
+    % params(3) = sigma = variance of basis functions (Gaussians)
+    % params(4) = D = # of basis functions
+    % params(5) = beta = UCB coefficient
+    % params(6) = tau = inverse softmax temperature
 
     % Init agent for Kalman filtering 
 
@@ -51,8 +57,19 @@ function agent = init_agent(params, a_min, a_max)
     end
     Q = q * eye(D);
 
+    % coefficient for upper confidence bound sampling
+    if exist('params', 'var') && length(params) >= 5
+        UCB_coef = params(5);
+    else
+        UCB_coef = 1;
+    end
 
-    UCB_coef = 1; % coefficient for upper confidence bound sampling
+    % inverse temperature of softmax
+    if exist('params', 'var') && length(params) >= 6
+        inv_temp = params(6);
+    else
+        inv_temp = 10;
+    end
 
     agent.a_min = a_min;
     agent.a_max = a_max;
@@ -68,5 +85,6 @@ function agent = init_agent(params, a_min, a_max)
     agent.Q = Q;
     agent.da = da;
     agent.UCB_coef = UCB_coef;
+    agent.inv_temp = inv_temp;
     agent.sigma_n = sigma_n;
 

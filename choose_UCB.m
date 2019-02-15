@@ -1,29 +1,27 @@
-function [a, Qs, Us, QUs] = choose_UCB(agent)
+function [a, Qs, Us, QUs, as, logP] = choose_UCB(agent)
 
     % UCB decison based on Kalman filter values & uncertainteis
-
-    best.a = NaN;
-    best.QU = -Inf;
+    % passes it through softmax
 
     QUs = [];
     Qs = [];
     Us = [];
+    as = [];
     for a = agent.a_min : agent.da : agent.a_max
-        x = activations(agent, a);
-        mu = x' * agent.w; % Q-value for a
-        sigma = sqrt(x' * agent.C * x + agent.s); % stdev for Q-value
+        [mu, sigma] = get_values(agent, a);
 
         Q = mu;
         U = sigma; % UCB
         QU = Q + U * agent.UCB_coef; % UCB-adjusted Q-value
-        if QU > best.QU
-            best.QU = QU;
-            best.a = a;
-        end
 
         QUs = [QUs QU];
+        as = [as a];
         Qs = [Qs Q];
         Us = [Us U];
     end
 
-    a = best.a;
+    logP = agent.inv_temp * QUs; % choice prob \propto exp(inv_temp * Q)
+    logP = logP - logsumexp(logP); % normalize
+    P = exp(logP);
+
+    a = as(find(mnrnd(1, P)));
