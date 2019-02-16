@@ -15,7 +15,7 @@ end
 
 if ~exist('choicefun', 'var') || isempty(choicefun)
     %choicefun = @choose_Thompson;
-    choicefun = @choose_hybrid;
+    %choicefun = @choose_hybrid;
     %choicefun = @choose_UCB;
     %choicefun = @(agent) choose_greedy(agent, 0.9);
 end
