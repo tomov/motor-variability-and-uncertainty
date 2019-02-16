@@ -18,27 +18,32 @@ if ~exist('do_save', 'var')
     do_save = true;
 end
 
-param(1).name = 'observation noise variance s';
+% IMPORTANT -- names must match those in model_likfun.m
+% we use them to figure out which param gets plugged where
+% that way we can fit a subset of parameters and use defaults for the rest
+
+% free parameters
+param(1).name = 's'; % observation noise variance 
 param(1).logpdf = @(x) log(exp(-x));
 param(1).lb = 0;
 param(1).ub = 10;
 
-param(2).name = 'transition noise variance q';
+param(2).name = 'q'; % transition noise variance 
 param(2).logpdf = @(x) log(exp(-x));
 param(2).lb = 0;
 param(2).ub = 10;
 
-param(3).name = 'stdev of basis funcs sigma';
+param(3).name = 'sigma'; % stdev of basis funcs 
 param(3).logpdf = @(x) log(exp(-x));
 param(3).lb = 0;
 param(3).ub = 10;
 
-param(4).name = 'number of basis funcs D';
+param(4).name = 'D'; % number of basis funcs 
 param(4).logpdf = @(x) 1; % TODO make sure it works even though we discretize this
 param(4).lb = 5;
 param(4).ub = 25; % = max # actions de to mvncdf
 
-Thompson_likfun = @(params, data) model_likfun(params, data, @loglik_Thompson, 1000, 13);
+Thompson_likfun = @(x, data) model_likfun(x, data, param, [], @loglik_Thompson, 10000, 13);
 
 tic
 results = mfit_optimize(Thompson_likfun, param, data(rats), nstarts);

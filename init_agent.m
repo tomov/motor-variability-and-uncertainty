@@ -15,7 +15,7 @@ function agent = init_agent(params, a_min, a_max)
     end
 
     % action/angle resolution = how many (- 1) actions to tile the action space
-    if exist('params', 'var') && length(params) >= 7
+    if exist('params', 'var') && length(params) >= 7 && ~isnan(params(7))
         ares = floor(params(7));  % TODO does mfit work with discrete vars?
         assert(ares <= 24, 'action resolution cannot be greater than 24 b/c of mvncdf');
     else
@@ -25,14 +25,14 @@ function agent = init_agent(params, a_min, a_max)
     da = (a_max - a_min) / ares; % action space resolution;  mvncdf doesn't like more than 25 dimensions (see choose_Thompson and loglik_Thompson)
 
     % # of basis f'ns
-    if exist('params', 'var') && length(params) >= 4
+    if exist('params', 'var') && length(params) >= 4 && ~isnan(params(4))
         D = floor(params(4)); % TODO does mfit work with discrete vars?
     else
         D = 10;
     end
 
     % var of basis f'ns
-    if exist('params', 'var') && length(params) >= 3
+    if exist('params', 'var') && length(params) >= 3 && ~isnan(params(3))
         sigma = params(3);
     else
         sigma = (a_max - a_min) / D; 
@@ -53,14 +53,14 @@ function agent = init_agent(params, a_min, a_max)
     C = c * eye(D);
 
     % observation noise variance
-    if exist('params', 'var') && length(params) >= 1
+    if exist('params', 'var') && length(params) >= 1 && ~isnan(params(1))
         s = params(1);
     else
         s = 0.01;
     end
 
     % transition noise variance i.e. process noise variance i.e. weight diffusion/drift noise
-    if exist('params', 'var') && length(params) >= 2
+    if exist('params', 'var') && length(params) >= 2 && ~isnan(params(2))
         q = params(2);
     else
         q = 0.1;
@@ -68,14 +68,14 @@ function agent = init_agent(params, a_min, a_max)
     Q = q * eye(D);
 
     % coefficient for upper confidence bound sampling
-    if exist('params', 'var') && length(params) >= 5
+    if exist('params', 'var') && length(params) >= 5 && ~isnan(params(5))
         UCB_coef = params(5);
     else
         UCB_coef = 1;
     end
 
     % inverse temperature of softmax
-    if exist('params', 'var') && length(params) >= 6
+    if exist('params', 'var') && length(params) >= 6 && ~isnan(params(6))
         inv_temp = params(6);
     else
         inv_temp = 10;
@@ -97,4 +97,7 @@ function agent = init_agent(params, a_min, a_max)
     agent.UCB_coef = UCB_coef;
     agent.inv_temp = inv_temp;
     agent.sigma_n = sigma_n;
+
+
+   % disp(agent) % sanity check
 
