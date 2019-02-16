@@ -77,7 +77,7 @@ for bin = 1:length(lb)
     set(h, 'facealpha', 0.3, 'edgecolor', 'none');
     hold off;
 
-    ylim([-50 200]);
+    ylim([-25 50]);
     %ylim([-5 20]);
     title(sprintf('%.2f-%.2f', lb(bin), ub(bin)));
 

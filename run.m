@@ -15,8 +15,8 @@ end
 
 if ~exist('choicefun', 'var') || isempty(choicefun)
     %choicefun = @choose_Thompson;
-    %choicefun = @choose_hybrid;
-    choicefun = @choose_UCB;
+    choicefun = @choose_hybrid;
+    %choicefun = @choose_UCB;
     %choicefun = @(agent) choose_greedy(agent, 0.9);
 end
 
@@ -28,7 +28,7 @@ ex = init_exp();
 
 ex = block_clamp(ex);
 ex = mini_clamp(ex);
-%ex = stationary(ex);
+ex = stationary(ex);
 %ex = breaks(ex);
 
 if do_plot
@@ -63,3 +63,5 @@ while ~ex.done
     end
 end
 
+
+save run.mat

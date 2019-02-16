@@ -104,7 +104,7 @@ for con_idx = 1:3
     title(titles{con_idx});
     xlabel('performance estimate');
     ylabel('regulated variability');
-    ylim([-50 520]);
+    ylim([-50 320]);
     %ylim([-10 30]);
     xlim([0 1]);
 end
