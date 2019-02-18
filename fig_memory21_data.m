@@ -18,7 +18,6 @@ for rat = 1:nrats
 
     [r, m, b, y] = fig_memory21_single(ex_rats(rat), rat, nrats);
     title(['rat ', num2str(rat)]);
-    rs = [rs r];
 
     g = [g m(1) < m(2)]; % null = chance (1 = policy gradient)
 
@@ -40,7 +39,7 @@ formula = 'y ~ 1 + b + (1 + b | rat)';
 result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
 
 [beta, names, stats] = fixedEffects(result);
-H = [0 -1 1];
+H = [0 -1 1 0 0 0 0 0 0];
 [p, F, DF1, DF2] = coefTest(result, H);
 fprintf('fitglme: far > close = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
 

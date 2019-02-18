@@ -6,14 +6,16 @@ param_name = {'s', 'q', 'sigma', 'D', 'beta', 'tau'};
 
 figure;
 
-for i = 1:k
-    subplot(4,2,i);
-    scatter(x_orig(:,i), x_rec(:,i));
+for j = 1:k
+    subplot(4,2,j);
+
+    i = find(strcmp(results.param(j).name, param_name));
+    scatter(x_orig(:,i), x_rec(:,j));
     lsline;
     xlabel('original');
     ylabel('recovered');
     title(param_name{i});
 
-    [r, p] = corr(x_orig(:,i), x_rec(:,i));
+    [r, p] = corr(x_orig(:,i), x_rec(:,j));
     fprintf('%s: r = %f, p = %f\n', param_name{i}, r, p);
 end

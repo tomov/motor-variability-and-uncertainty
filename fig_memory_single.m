@@ -2,7 +2,7 @@
 % test whether there is "memory" for past target angles
 % see if subject does better if an old target pops up again
 %
-function [mses, ranges, vlines] = fig_memory_single(ex, rat, nrats)
+function [mses, ranges, vlines, y, v, d1, d2, aa, tt, ttar, ttar1, ttar2] = fig_memory_single(ex, rat, nrats)
 
 
 mses = {[], []};
@@ -25,6 +25,17 @@ if ismember(rat, [4, 6, 8])
 else
     thresh = 1;
 end
+
+y = [];
+v = [];
+d1 = [];
+d2 = [];
+
+aa = [];
+tt = [];
+ttar = [];
+ttar1 = [];
+ttar2 = [];
  
 for t = 1:length(ex.a)
     if tar ~= ex.tar(t)
@@ -43,9 +54,24 @@ for t = 1:length(ex.a)
     end
 
 
-    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == 40
+    ntrials_back = 20;
+    if second_last_cnt >= 300 && last_cnt >= 300 && cnt == ntrials_back
         % we have enough time points
-        trials = t-39:t;
+        trials = t-ntrials_back+1:t;
+
+        mse = nanmean((ex.tar(trials) - ex.a(trials)).^2);
+        vv = nanvar(ex.a(trials));
+
+        y = [y; mse];
+        v = [v; vv];
+        d1 = [d1; abs(tar - last_tar)];
+        d2 = [d2; abs(last_tar - second_last_tar)];
+
+        aa = [aa; ex.a(trials)'];
+        tt = [tt; (1:ntrials_back)'];
+        ttar = [ttar; repmat(tar, ntrials_back, 1)];
+        ttar1 = [ttar1; repmat(last_tar, ntrials_back, 1)];
+        ttar2 = [ttar2; repmat(second_last_tar, ntrials_back, 1)];
 
         if abs(second_last_tar - last_tar) > 10
             % -- we weed out nan's when we take the means and sem's
@@ -55,7 +81,6 @@ for t = 1:length(ex.a)
             ex_tar = ex.tar(trials);
             mse = immse(ex_tar(which), ex_a(which));
             %}
-            mse = immse(ex.tar(trials), ex.a(trials));
 
             % the last two targets are far apart
             %
@@ -63,7 +88,7 @@ for t = 1:length(ex.a)
                 % old target between previous & new target
                 %
                 mses{1} = [mses{1} mse];
-                fprintf('A: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
+                %fprintf('A: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
 
                 ranges{1} = [ranges{1} second_last_start:t+300];
                 vlines{1} = [vlines{1} length(ranges{1})];
@@ -72,7 +97,7 @@ for t = 1:length(ex.a)
                 % new target between old & previous target
                 %
                 mses{2} = [mses{2} mse];
-                fprintf('B: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
+                %fprintf('B: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
 
                 ranges{2} = [ranges{2} second_last_start:t+300];
                 vlines{2} = [vlines{2} length(ranges{2})];
@@ -101,7 +126,7 @@ for t = 1:length(ex.a)
                 %
                 mse = immse(ex.tar(trials), ex.a(trials));
                 mses{2} = [mses{2} mse];
-                fprintf('B: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
+                %fprintf('B: %.3f %.3f %.3f\n', second_last_tar, last_tar, tar);
             end
 
         end

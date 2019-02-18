@@ -1,4 +1,4 @@
-function [ex, agent] = run(params, choicefun, do_plot)
+function [ex, agent] = run(params, choicefun, nsessions, do_plot)
 
 % run simulation with given parameters and choice function
 % returns data == ex
@@ -18,13 +18,18 @@ if ~exist('choicefun', 'var') || isempty(choicefun)
     %choicefun = @choose_hybrid;
     %choicefun = @choose_UCB;
     %choicefun = @(agent) choose_greedy(agent, 0.9);
+    assert(false, 'no choice function supplied');
 end
 
 if ~exist('do_plot', 'var')
     do_plot = false;
 end
 
-ex = init_exp();
+if ~exist('nsessions', 'var')
+    ex = init_exp();
+else
+    ex = init_exp(nsessions);
+end
 
 ex = block_clamp(ex);
 ex = mini_clamp(ex);
