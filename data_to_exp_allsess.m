@@ -30,6 +30,7 @@ ex.clamp = [];
 ex.bclamp_start = [];
 ex.bclamp_dur = [];
 ex.bclamp_r = [];
+ex.breaks = [];
 
 
 for rat = 1:nrats
@@ -42,6 +43,7 @@ for rat = 1:nrats
     ex.bclamp_start = [ex.bclamp_start ex_rats(rat).bclamp_start];
     ex.bclamp_dur = [ex.bclamp_dur ex_rats(rat).bclamp_dur];
     ex.bclamp_r = [ex.bclamp_r ex_rats(rat).bclamp_r];
+    ex.breaks = [ex.breaks ex_rats(rat).breaks];
 end
 
-save rats_all_blocks.mat
+save rats_all_sess.mat
