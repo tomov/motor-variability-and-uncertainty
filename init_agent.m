@@ -52,14 +52,14 @@ function agent = init_agent(params, a_min, a_max)
     c = 1;
     C = c * eye(D);
 
-    % observation noise variance
+    % observation noise variance / error variance
     if exist('params', 'var') && length(params) >= 1 && ~isnan(params(1))
         s = params(1);
     else
         s = 0.01;
     end
 
-    % transition noise variance i.e. process noise variance i.e. weight diffusion/drift noise
+    % transition noise variance i.e. process noise variance i.e. weight diffusion/drift noise i.e. innovation variance
     if exist('params', 'var') && length(params) >= 2 && ~isnan(params(2))
         q = params(2);
     else
