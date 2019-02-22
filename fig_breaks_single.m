@@ -29,7 +29,6 @@ nansem = @(x) nanstd(x) / sqrt(sum(~isnan(x)));
 m = [nanmean(mses{1}) nanmean(mses{2})];
 s = [nansem(mses{1}) nansem(mses{2})];
 
-save shit.mat
 
 subplot(1, nrats, rat);
 bar(m);

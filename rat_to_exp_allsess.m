@@ -19,11 +19,11 @@ function ex = rat_to_exp_allsess(rat)
 
     % create experiment from data
     %
-    ex.tar = inf(1, sess_size * nsess); % trial-by-trial target
-    ex.b = inf(1, sess_size * nsess); % trial-by-trial boundary
-    ex.a = inf(1, sess_size * nsess); % trial-by-trial action / angle of animal
-    ex.r = inf(1, sess_size * nsess); % trial-by-trial reward
-    ex.clamp = inf(1, sess_size * nsess); % trial-by-trial mini reward clamps
+    ex.tar = inf(1, sess_size); % trial-by-trial target
+    ex.b = inf(1, sess_size); % trial-by-trial boundary
+    ex.a = inf(1, sess_size); % trial-by-trial action / angle of animal
+    ex.r = inf(1, sess_size); % trial-by-trial reward
+    ex.clamp = inf(1, sess_size); % trial-by-trial mini reward clamps
     ex.bclamp_start = [];
     ex.bclamp_dur = [];
     ex.bclamp_r = [];
@@ -43,9 +43,11 @@ function ex = rat_to_exp_allsess(rat)
             which_block_clamps = sessData{rat}(s).inBlockClamp;
             clamp(which_block_clamps) = sessData{rat}(s).RewardProb;
 
-            ex.bclamp_start = [ex.bclamp_start min(find(which_block_clamps))];
-            ex.bclamp_dur = [ex.bclamp_dur sum(which_block_clamps)];
-            ex.bclamp_r = [ex.bclamp_r sessData{rat}(s).RewardProb];
+            if sum(which_block_clamps) > 0
+                ex.bclamp_start = [ex.bclamp_start t + min(find(which_block_clamps))];
+                ex.bclamp_dur = [ex.bclamp_dur sum(which_block_clamps)];
+                ex.bclamp_r = [ex.bclamp_r sessData{rat}(s).RewardProb];
+            end
         end
 
         for i = 1:length(a)
@@ -67,6 +69,8 @@ function ex = rat_to_exp_allsess(rat)
             t1 = datevec(datenum(sessData{rat}(s).startTime));
             t2 = datevec(datenum(sessData{rat}(s + 1).startTime));
             ex.breaks(t) = etime(t2, t1) / 3600; % time to next session in hours TODO convert to trials TODO subtract duration of session s
+        else
+            ex.breaks(t) = 0;
         end
     end
 

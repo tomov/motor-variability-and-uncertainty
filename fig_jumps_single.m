@@ -62,7 +62,6 @@ function [r, p, x, y, b] = fig_jumps_single(ex, rat, nrats)
     y = y'; 
     b = b';
     [r, p] = corr(x, y);
-    save shit.mat
 
     xlabel('distance to new target');
     ylabel('avg reward during first 20 trials');

@@ -32,7 +32,4 @@ title(['rat ', num2str(rat)]);
 r
 p
 
-if isnan(r)
-    save shit.mat
-end
 

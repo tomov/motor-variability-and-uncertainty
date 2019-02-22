@@ -100,7 +100,6 @@ title('new target towards old target');
 rs(2) = r;
 ps(2) = p;
 
-save shit.mat;
 
 %nansem = @(x) nanstd(x) / sqrt(sum(~isnan(x)));
 %

@@ -40,7 +40,7 @@ function ex = rat_to_exp_blocks(rat)
         which_block_clamps = blkClmps{rat}(s).inBlockClamp;
         clamp(which_block_clamps) = blkClmps{rat}(s).RewardProb;
 
-        ex.bclamp_start = [ex.bclamp_start min(find(which_block_clamps))];
+        ex.bclamp_start = [ex.bclamp_start t + min(find(which_block_clamps))];
         ex.bclamp_dur = [ex.bclamp_dur sum(which_block_clamps)];
         ex.bclamp_r = [ex.bclamp_r blkClmps{rat}(s).RewardProb];
 

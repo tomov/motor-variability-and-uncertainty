@@ -1,8 +1,8 @@
 % fig_value but for data
 % copied stuff from fig_memory2_data and fig_value
 
-load rats_all_blocks.mat;
-
+load rats_all_sess.mat;
+rs =  [0.1 0.35 0.75]; % all blocks
 
 nrats = length(ex_rats);
 figure;
@@ -17,7 +17,7 @@ r_all = [];
 rr_all = [];
 for rat = 1:nrats
 
-    [m, dvars, PEs, r, rr] = fig_value_single(ex_rats(rat), rat, nrats);
+    [m, dvars, PEs, r, rr] = fig_value_single(ex_rats(rat), rat, nrats, rs);
     title(['rat ', num2str(rat)]);
 
     g = [g m(1) > m(2)]; % null = chance (1 = policy gradient; note we plot them flipped) 
@@ -64,6 +64,4 @@ p
 
 
 figure;
-fig_value_single(ex, 1, 1);
-title('superrat');
-
+fig_value_single(ex, 1, 1, rs, 'superrat');
