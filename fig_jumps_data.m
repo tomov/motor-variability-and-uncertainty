@@ -1,4 +1,4 @@
-% test for memory by seeing whether farter targets are learned faster / slower
+% test for thompson by seeing whether farter targets have higher initial rewards 
 %
 
 
@@ -11,28 +11,30 @@ rs = [];
 
 x_all = [];
 y_all = [];
-z_all = [];
+b_all = [];
 rat_all = [];
 for rat = 1:nrats
 
     stationary = 1;
 
-    [r, p, x, y, z] = fig_memory2_single(ex_rats(rat), rat, nrats);
+    [r, p, x, y, b] = fig_jumps_single(ex_rats(rat), rat, nrats);
     title(['rat ', num2str(rat)]);
     rs = [rs r];
 
     x_all = [x_all; x];
     y_all = [y_all; y];
-    z_all = [z_all; z];
+    b_all = [b_all; b];
     rat_all = [rat_all; repmat(rat, size(x, 1), 1)];
 end
 
-% group-level analysis the right way
+% group-level analysis the right way, for # trials to learn / switch
 x = x_all;
 y = y_all;
-z = z_all;
+b = b_all;
 rat = rat_all;
-tbl = table(y, x, rat, z);
+tbl = table(y, x, rat, b);
+
+% group-level analysis for reward 
 formula = 'y ~ 1 + x + (1 + x | rat)';
 
 result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
@@ -40,25 +42,5 @@ result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'Fi
 [beta, names, stats] = fixedEffects(result);
 H = [0 1];
 [p, F, DF1, DF2] = coefTest(result, H);
-fprintf('fitglme (# trials to learn/switch) slope = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
-
-
-
-
-
-
-% group-level analysis the wrong way
-%
-
-frs = atanh(rs);
-
-[h, p, ci, stats] = ttest(frs);
-stats
-p
-
-figure;
-[r, p] = fig_memory2_single(ex, 1, 1);
-title('superrat');
-r
-p
+fprintf('fitglme (reward on first 20 trials) slope = %f (negative is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
 
