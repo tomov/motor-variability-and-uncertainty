@@ -24,7 +24,7 @@ if ~exist('max_trials', 'var')
 end
 
 if ~exist('skip_trials', 'var')
-    skip_trials = 10000;
+    skip_trials = 1;
 end
 
 

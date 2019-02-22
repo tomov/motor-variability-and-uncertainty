@@ -5,7 +5,7 @@ function recovery(niters, nstarts, fit_fun, choice_fun, rand_fun, max_trials, sk
 % example call
 % recovery(100, 5, @fit_4params_Thompson, @() [rand*10, rand*10, 4, 10, 1, 10, 4])
 
-filename = sprintf('recovery_iters=%d_nstarts=%d_fitfun=%s_randfun=%s_1k2.mat', niters, nstarts, func2str(fit_fun), func2str(rand_fun));
+filename = sprintf('recovery_iters=%d_nstarts=%d_fitfun=%s_randfun=%s_3k.mat', niters, nstarts, func2str(fit_fun), func2str(rand_fun));
 disp(filename)
 
 x_rec = [];
