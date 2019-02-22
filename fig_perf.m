@@ -29,6 +29,7 @@ for bin = 1:length(lb)
     which = {(ex.clamp == 1) & which_bin, (ex.clamp == 0) & which_bin};
 
     ax = -10:15;
+    howmany = 10; % how many trials to take variance over
     hold on;
     clear v;
     clear hh;
@@ -39,15 +40,19 @@ for bin = 1:length(lb)
     % TODO dedupe with fig_cond
     for c_idx = 1:2
         ix = find(which{c_idx});
+        ix = ix(ix + howmany < length(ex.a));
         for i = 1:length(ix)
             for j = 1:length(ax)
                 t = ix(i) + ax(j);
+                if t > length(ex.var)
+                    break
+                end
                 v(i,j) = ex.var(t);
                 if ax(j) >= 0 && ax(j) < 5
                     v(i,j) = NaN;
                 end
             end
-            vb{bin, c_idx}(i) = var(ex.a(ix(i) : ix(i) + 5)); % TODO 10
+            vb{bin, c_idx}(i) = var(ex.a(ix(i) : ix(i) + howmany));
         end
 
         n{c_idx} = size(v, 1);

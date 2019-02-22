@@ -13,12 +13,11 @@ function ex = next_trial(ex, a, r)
     % shift boundaries and/or switch target after a session if criteria are met
     if mod(ex.t, ex.session_size) == 0
 
-        % distances from target angle on last 50 trials
-        a = sort(abs(ex.a(ex.t-50:ex.t) - ex.tar(ex.t-50:ex.t)));
-
         % set reward boundary to keep reward rate around 35%
         rr = mean(ex.r(ex.t-50:ex.t));
         if rr < 30 || rr > 40
+            % distances from target angle on last 50 trials
+            a = sort(abs(ex.a(ex.t-50:ex.t) - ex.tar(ex.t-50:ex.t)));
             ex.bound = a(18); % 35 percentile
         end
 
@@ -31,14 +30,13 @@ function ex = next_trial(ex, a, r)
                     break;
                 end
             end
+
+            % distances from NEW (!) target angle on last 50 trials
+            a = sort(abs(ex.a(ex.t-50:ex.t) - ex.target));
             ex.bound = a(18); % 35 percentile <-- this is what Ashesh did (see fig_cond_data.m)
             %ex.bound = 5;
         end
     end
-
-    % TODO sessions
-    % TODO shifting boundaries
-    % TODO nonstationary vs. stationary
 
     % next trial
     ex.t = ex.t + 1;
