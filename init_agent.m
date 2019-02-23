@@ -10,8 +10,8 @@ function agent = init_agent(params, a_min, a_max)
     % Init agent for Kalman filtering 
 
     if ~exist('a_min', 'var') || ~exist('a_max', 'var')
-        a_min = -20; % min angle
-        a_max = 20; % max angle
+        a_min = -30; % min angle
+        a_max = 30; % max angle
     end
 
     % action/angle resolution = how many (- 1) actions to tile the action space

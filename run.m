@@ -31,9 +31,9 @@ else
     ex = init_exp(nsessions);
 end
 
-ex = block_clamp(ex);
+%ex = block_clamp(ex);
 ex = mini_clamp(ex);
-ex = stationary(ex);
+%ex = stationary(ex);
 %ex = breaks(ex);
 
 if do_plot

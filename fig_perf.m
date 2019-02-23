@@ -29,10 +29,8 @@ for bin = 1:length(lb)
     which = {(ex.clamp == 1) & which_bin, (ex.clamp == 0) & which_bin};
 
     ax = -10:15;
-    howmany = 10; % how many trials to take variance over
+    howmany = 5; % how many trials to take variance over
     hold on;
-    clear v;
-    clear hh;
     clear n;
     clear m;
     clear s;
@@ -41,6 +39,7 @@ for bin = 1:length(lb)
     for c_idx = 1:2
         ix = find(which{c_idx});
         ix = ix(ix + howmany < length(ex.a));
+        clear v;
         for i = 1:length(ix)
             for j = 1:length(ax)
                 t = ix(i) + ax(j);
@@ -52,7 +51,7 @@ for bin = 1:length(lb)
                     v(i,j) = NaN;
                 end
             end
-            vb{bin, c_idx}(i) = var(ex.a(ix(i) : ix(i) + howmany));
+            vb{bin, c_idx}(i) = ex.var(ix(i) + howmany); % var(ex.a(ix(i) : ix(i) + howmany));
         end
 
         n{c_idx} = size(v, 1);
@@ -82,7 +81,7 @@ for bin = 1:length(lb)
     set(h, 'facealpha', 0.3, 'edgecolor', 'none');
     hold off;
 
-    ylim([-25 50]);
+    ylim([-25 150]);
     %ylim([-5 20]);
     title(sprintf('%.2f-%.2f', lb(bin), ub(bin)));
 
