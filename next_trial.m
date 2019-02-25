@@ -12,6 +12,8 @@ function ex = next_trial(ex, a, r)
 
     % shift boundaries and/or switch target after a session if criteria are met
     if mod(ex.t, ex.session_size) == 0
+        ex.target = rand * (ex.max - ex.min) + ex.min; % <== this is what repros the nice shape of the fig_cond... and comment out all else below
+        %{
 
         % set reward boundary to keep reward rate around 35%
         rr = mean(ex.r(ex.t-50:ex.t));
@@ -36,6 +38,7 @@ function ex = next_trial(ex, a, r)
             ex.bound = a(18); % 35 percentile <-- this is what Ashesh did (see fig_cond_data.m)
             %ex.bound = 5;
         end
+        %}
     end
 
     % next trial
