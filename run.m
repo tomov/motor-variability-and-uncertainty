@@ -1,5 +1,14 @@
 function [ex, agent] = run(params, choicefun, nsessions, do_plot)
 
+% e.g. run with
+% [ex, agent] = run([], @choose_softmax, 10, true)
+% [ex, agent] = run([], @choose_UCB, 10, true)
+% [ex, agent] = run([], @choose_Thompson, 10, true)
+% [ex, agent] = run([], @choose_hybrid, 10, true)
+%
+% load fit_params_nstarts=5_fitfun=fit_2params_Thompson_10k_max=3000_skip=10.mat
+% [ex, agent] = run(results.x, @choose_Thompson, 10, true);
+
 % run simulation with given parameters and choice function
 % returns data == ex
 %
@@ -64,7 +73,7 @@ while ~ex.done
     if do_plot && ex.t >= 250 + 300
         figs;
         drawnow;
-        pause(0.01);
+        pause(0.001);
     end
 end
 

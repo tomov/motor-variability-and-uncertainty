@@ -6,8 +6,8 @@ function ex = init_exp(nsessions)
     
     % initialize experimental structure
 
-    ex.min = -20; % min angle
-    ex.max = 20; % max angle
+    ex.min = -30; % min angle
+    ex.max = 30; % max angle
     ex.session_size = 300; % # trials in a session
     ex.nsessions = nsessions; % # sessions
     ex.n = ex.nsessions * ex.session_size; % # trials

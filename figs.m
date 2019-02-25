@@ -20,6 +20,7 @@ title('Q-values');
 xlabel('angle');
 ylabel('expected reward');
 ylim([-1 1.5]);
+xlim([agent.a_min agent.a_max]);
 
 % plot basis functions
 %
@@ -28,6 +29,7 @@ plot_w(agent);
 title('basis functions, scaled by w');
 xlabel('angle');
 ylabel('w');
+xlim([agent.a_min agent.a_max]);
 
 % plot variability
 %
