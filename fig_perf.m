@@ -55,12 +55,13 @@ for bin = 1:length(lb)
         end
 
         n{c_idx} = size(v, 1);
-        m{c_idx} = mean(v, 1);
-        s{c_idx} = std(v, 1);
-        se{c_idx} = std(v, 1) / sqrt(size(v,1));
+        m{c_idx} = nanmean(v, 1);
+        s{c_idx} = nanstd(v, 1);
+        se{c_idx} = nanstd(v, 1) / sqrt(size(v,1));
+        m{c_idx}(m{c_idx} == 0) = NaN; % to deal w/ real data...
     end
-    vd(bin) = mean(vb{bin, 2}) - mean(vb{bin, 1});
-    vsd(bin) = sqrt(var(vb{bin, 2}) + var(vb{bin, 1}));
+    vd(bin) = nanmean(vb{bin, 2}) - nanmean(vb{bin, 1});
+    vsd(bin) = sqrt(nanvar(vb{bin, 2}) + nanvar(vb{bin, 1}));
     vn(bin) = length(vb{bin, 2}) + length(vb{bin, 1});
     vsed(bin) = vsd(bin) / sqrt(vn(bin));
 

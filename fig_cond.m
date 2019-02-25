@@ -46,6 +46,9 @@ for c_idx = 1:2
     for i = 1:length(ix)
         for j = 1:length(ax)
             t = ix(i) + ax(j);
+            if t > length(ex.var)
+                break
+            end
             v(i,j) = ex.var(t);
             if ax(j) >= 0 && ax(j) < 5
                 v(i,j) = NaN;
@@ -54,9 +57,10 @@ for c_idx = 1:2
     end
 
     n{c_idx} = size(v, 1);
-    m{c_idx} = mean(v, 1);
-    s{c_idx} = std(v, 1);
-    se{c_idx} = std(v, 1) / sqrt(size(v,1));
+    m{c_idx} = nanmean(v, 1);
+    s{c_idx} = nanstd(v, 1);
+    se{c_idx} = nanstd(v, 1) / sqrt(size(v,1));
+    m{c_idx}(m{c_idx} == 0) = NaN; % to deal w/ real data...
     hh(c_idx) = plot(ax, m{c_idx}, 'color', cols{c_idx});
 
     w = ax < 0;
