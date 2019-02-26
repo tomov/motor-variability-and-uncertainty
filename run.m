@@ -52,7 +52,7 @@ if do_plot > 0
 end
 
 while ~ex.done
-    disp(ex.t);
+    %disp(ex.t);
 
     a = choicefun(agent);
     %a = 0;

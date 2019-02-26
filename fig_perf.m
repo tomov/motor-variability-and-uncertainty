@@ -4,7 +4,14 @@
 %clear all;
 %load fig_cond.mat
 
-figure;
+function fig_perf(ex, for_grid, grid_R, grid_C, grid_i, grid_j)
+
+if ~exist('for_grid', 'var')
+    for_grid = false;
+end
+if ~for_grid
+    figure;
+end
 
 tau = 5; % TODO fit 
 rbar = nan(1, ex.n);
@@ -65,40 +72,48 @@ for bin = 1:length(lb)
     vn(bin) = length(vb{bin, 2}) + length(vb{bin, 1});
     vsed(bin) = vsd(bin) / sqrt(vn(bin));
 
-    subplot(3,4,bin+1);
     md = m{2} - m{1};
     sed = sqrt(s{1}.^2 + s{2}.^2) / sqrt(n{1} + n{2}); 
 
     color{bin} = blue * (7 - bin)/6 + red * (bin - 1) / 6;
-    plot(ax, md, 'color', color{bin});
-    hold on;
 
-    w = ax < 0;
-    h = fill([ax(w) flip(ax(w))], [md(w) + sed(w) flip(md(w) - sed(w))], color{bin});
-    set(h, 'facealpha', 0.3, 'edgecolor', 'none');
+    if ~for_grid
+        subplot(3,4,bin+1);
+        plot(ax, md, 'color', color{bin});
+        hold on;
 
-    w = ax >= 5;
-    h = fill([ax(w) flip(ax(w))], [md(w) + sed(w) flip(md(w) - sed(w))], color{bin});
-    set(h, 'facealpha', 0.3, 'edgecolor', 'none');
-    hold off;
+        w = ax < 0;
+        h = fill([ax(w) flip(ax(w))], [md(w) + sed(w) flip(md(w) - sed(w))], color{bin});
+        set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 
-    ylim([-2 10]);
-    %ylim([-25 150]);
-    %ylim([-5 20]);
-    title(sprintf('%.2f-%.2f', lb(bin), ub(bin)));
+        w = ax >= 5;
+        h = fill([ax(w) flip(ax(w))], [md(w) + sed(w) flip(md(w) - sed(w))], color{bin});
+        set(h, 'facealpha', 0.3, 'edgecolor', 'none');
+        hold off;
 
-    if bin == 6
-        xlabel('trials from condition');
-    end
-    if bin == 1
-        ylabel('\Delta variability (no reward - reward)');
+        ylim([-2 10]);
+        %ylim([-25 150]);
+        %ylim([-5 20]);
+        title(sprintf('%.2f-%.2f', lb(bin), ub(bin)));
+
+        if bin == 6
+            xlabel('trials from condition');
+        end
+        if bin == 1
+            ylabel('\Delta variability (no reward - reward)');
+        end
     end
 end
 
 
 % plot population plot (Figure 2C)
 %
-subplot(3,4,9);
+if ~for_grid
+    subplot(3,4,9);
+else
+    subplot(grid_R * 2, grid_C * 3, ((grid_i - 1) * 2 + 1) * grid_C * 3 + (grid_j - 1) * 3 + 2);
+end
+
 xs = (lb + ub)/2;
 hold on;
 for bin = 1:length(lb)
@@ -108,27 +123,37 @@ end
 errorbar(xs, vd, vsed, 'color', 'black', 'linestyle', 'none');
 hold off;
 xlim([-0.05 1.05]);
-xlabel('performance estimate');
-ylabel('\Delta variability');
 
-
-% plot regulated variability
-%
-rs = 0;
-for s = 1:10
-    rs = rs + 1/10 * (1 - exp(-1/tau)) * exp(-(s-1)/tau);
-end
-%vd = vd / rs; % TODO debug
-
-for bin = 1:length(lb)
-    cvd(bin) = sum(vd(bin:end)); % TODO do it right / normalize by rs
-    cvsed(bin) = sqrt(sum(vsd(bin:end).^2)) / sqrt(sum(vn(bin:end)));
+if ~for_grid
+    xlabel('performance estimate');
+    ylabel('\Delta variability');
+else
+    ylim([-1 8]);
+    set(gca, 'xtick', []);
+    set(gca, 'ytick', []);
 end
 
-subplot(3,4,10);
-errorbar(xs, cvd, cvsed, 'color', 'black');
-ylim([0 40]);
-%ylim([0 500]);
-%ylim([-5 40]);
-xlabel('performance estimate');
-ylabel('regulated variability');
+
+
+if ~for_grid
+    % plot regulated variability
+    %
+    rs = 0;
+    for s = 1:10
+        rs = rs + 1/10 * (1 - exp(-1/tau)) * exp(-(s-1)/tau);
+    end
+    %vd = vd / rs; % TODO debug
+
+    for bin = 1:length(lb)
+        cvd(bin) = sum(vd(bin:end)); % TODO do it right / normalize by rs
+        cvsed(bin) = sqrt(sum(vsd(bin:end).^2)) / sqrt(sum(vn(bin:end)));
+    end
+
+    subplot(3,4,10);
+    errorbar(xs, cvd, cvsed, 'color', 'black');
+    ylim([0 40]);
+    %ylim([0 500]);
+    %ylim([-5 40]);
+    xlabel('performance estimate');
+    ylabel('regulated variability');
+end
