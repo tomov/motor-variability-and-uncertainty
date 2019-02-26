@@ -1,12 +1,14 @@
 function [ex, agent] = run(params, choicefun, nsessions, do_plot)
 
 % e.g. run with
-% [ex, agent] = run([], @choose_softmax, 10, true)
-% [ex, agent] = run([], @choose_UCB, 10, true)
-% [ex, agent] = run([], @choose_Thompson, 10, true)
-% [ex, agent] = run([], @choose_hybrid, 10, true)
+% [ex, agent] = run([], @choose_softmax, 10, 1)
+% [ex, agent] = run([], @choose_UCB, 10, 1)
+% [ex, agent] = run([], @choose_Thompson, 10, 1)
+% [ex, agent] = run([], @choose_Thompson, 100, 2)
+% [ex, agent] = run([], @choose_hybrid, 10, 1)
 %
 % load fit_params_nstarts=5_fitfun=fit_2params_Thompson_10k_max=3000_skip=10.mat
+% TODO this is WRONG!
 % [ex, agent] = run(results.x, @choose_Thompson, 10, true);
 
 % run simulation with given parameters and choice function
@@ -31,7 +33,7 @@ if ~exist('choicefun', 'var') || isempty(choicefun)
 end
 
 if ~exist('do_plot', 'var')
-    do_plot = false;
+    do_plot = 0;
 end
 
 if ~exist('nsessions', 'var')
@@ -45,7 +47,7 @@ ex = mini_clamp(ex);
 ex = stationary(ex);
 %ex = breaks(ex);
 
-if do_plot
+if do_plot > 0
     figure;
 end
 
@@ -70,10 +72,15 @@ while ~ex.done
 
     ex = next_trial(ex, a, r);
 
-    if do_plot && ex.t >= 250 + 300
+    if do_plot == 1 && ex.t >= 250 + 300
         figs;
         drawnow;
         pause(0.001);
+    elseif do_plot == 2
+        if ex.t >= 1000 && mod(ex.t, 1000) == 0
+            figs;
+            drawnow;
+        end
     end
 end
 

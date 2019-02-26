@@ -34,7 +34,12 @@ xlim([agent.a_min agent.a_max]);
 % plot variability
 %
 subplot(2,2,3);
-plot(ex.var);
+if ex.t <= 5000 
+    range = 1:ex.t-1;
+else
+    range = ex.t - 5000:ex.t-1;
+end
+plot(ex.var(range));
 title('variability');
 ylabel('var');
 xlabel('trial');
@@ -42,13 +47,15 @@ xlabel('trial');
 % plot choices
 %
 subplot(2,2,4);
-range = 1:ex.t-1;
 h = fill([range flip(range)], [ex.tar(range) + ex.b(range) flip(ex.tar(range) - ex.b(range))], 'blue');
 set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 hold on;
-plot(range(ex.r == 0), ex.a(ex.r == 0), '+', 'color', 'red');
-plot(range(ex.r == 1), ex.a(ex.r == 1), '+', 'color', 'green');
-plot(ex.tar, 'color', 'blue');
+r = ex.r(range);
+a = ex.a(range);
+tar = ex.tar(range);
+plot(range(r == 0), a(r == 0), '+', 'color', 'red');
+plot(range(r == 1), a(r == 1), '+', 'color', 'green');
+plot(range, tar, 'color', 'blue');
 hold off;
 xlabel('trial');
 ylabel('press angle');
