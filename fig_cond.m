@@ -52,7 +52,7 @@ end
 
 cols = {'red', 'blue'};
 labels = {'reward', 'no reward'};
-%which = {~isnan(ex.clamp) & ex.r == 1, ~isnan(ex.clamp) & ex.r == 0}; <-- this is weird! the reward / no-reward trials are dependent b/c of the block clamps
+%which = {~isnan(ex.clamp) & ex.r == 1, ~isnan(ex.clamp) & ex.r == 0}; %<-- this is weird! the reward / no-reward trials are dependent b/c of the block clamps; try e.g. load data_allsess.mat; fig_cond(data(1))
 which = {ex.clamp == 1, ex.clamp == 0};
 
 ax = -10:15;
