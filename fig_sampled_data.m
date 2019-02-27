@@ -21,8 +21,10 @@ for rat = 1:nrats
     title(['rat ', num2str(rat)]);
 
     y_all = [y_all; y];
-    rat_all = [rat_all; repmat(rat, size(x, 1), 1)];
+    rat_all = [rat_all; repmat(rat, size(y, 1), 1)];
 end
+
+save fig_sampled_data.mat
 
 % group-level analysis the right way
 y = y_all;
