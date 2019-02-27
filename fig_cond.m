@@ -4,7 +4,7 @@
 %clear all;
 %load fig_cond;
 
-function fig_cond(ex, for_grid, grid_R, grid_C, grid_i, grid_j)
+function fig_cond(ex, for_grid, grid_R, grid_C, grid_i, grid_j, S, Q)
 
 
 if ~exist('for_grid', 'var')
@@ -37,6 +37,12 @@ if ~for_grid
 else
     set(gca, 'xtick', []);
     set(gca, 'ytick', []);
+    if grid_i == 1
+        title(sprintf('q = %.4f', Q(grid_j)));
+    end
+    if grid_j == 1
+        ylabel(sprintf('s = %.4f', S(grid_i)));
+    end
 end
 
 
