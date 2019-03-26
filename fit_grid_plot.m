@@ -5,7 +5,7 @@ figure;
 files = dir('*.mat');
 
 for l = 1:length(files)
-    if startsWith(files(l).name, 'grid3_')
+    if startsWith(files(l).name, 'gridA1_')
         load(files(l).name);
         fig_cond(ex, true, length(S), length(Q), i, j, S, Q);
         fig_perf(ex, true, length(S), length(Q), i, j);

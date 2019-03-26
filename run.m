@@ -20,7 +20,9 @@ rng default; % repro
 %agent = init_agent(results.x(5,:));
 if ~exist('params', 'var') || isempty(params)
     agent = init_agent();
-else
+elseif isstruct(params)
+    agent = params; % could pass entire agent instead of params
+else % by default, just pass params
     agent = init_agent(params);
 end
 
