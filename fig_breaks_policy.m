@@ -1,7 +1,7 @@
 % fig_breaks but for policy
 % fake -- we don't really use breaks in policy gradient!
 
-load thompson_300000_nonstationary_breaks.mat
+load('archive/thompson_300000_nonstationary_breaks.mat');
 b = ex.breaks;
 
 load policy_T=100_300000_nonstationary.mat;

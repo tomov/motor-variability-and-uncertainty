@@ -3,7 +3,7 @@
 
 load rats_all_sess.mat;
 %rs =  [0.1 0.35 0.75]; % all blocks
-rs =  [0.1 0.35 0.75]; % all blocks
+rs =  [0.35]; % all blocks
 
 nrats = length(ex_rats);
 figure;

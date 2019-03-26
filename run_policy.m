@@ -1,19 +1,21 @@
 rng default; % repro
 
 actor = init_policy();
-ex = init_exp();
+ex = init_exp(1000);
 
 ex = block_clamp(ex);
 ex = mini_clamp(ex);
-%ex = stationary(ex);
+ex = stationary(ex);
 
-actor.s = actor.s_T1
+actor.s = actor.s_T100;
 do_update_s = false;
 
 %figure;
 
 while ~ex.done
-    disp(ex.t);
+    if mod(ex.t, ex.session_size) == 0
+        disp(ex.t);
+    end
 
     [x, eps_e, eps_sigma] = choose_policy(actor);
 
@@ -27,3 +29,5 @@ while ~ex.done
     %    pause(0.01);
     %end
 end
+
+save run_policy.mat
