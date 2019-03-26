@@ -2,6 +2,7 @@
 % copied stuff from fig_memory2_data and fig_value
 
 load rats_all_sess.mat;
+%rs =  [0.1 0.35 0.75]; % all blocks
 rs =  [0.1 0.35 0.75]; % all blocks
 
 nrats = length(ex_rats);
@@ -11,18 +12,20 @@ figure;
 g = [];
 
 dvars_all = [];
+vars_all = [];
 PEs_all = [];
 rat_all = [];
 r_all = [];
 rr_all = [];
 for rat = 1:nrats
 
-    [m, dvars, PEs, r, rr] = fig_value_single(ex_rats(rat), rat, nrats, rs);
+    [m, dvars, PEs, r, rr, vars] = fig_value_single(ex_rats(rat), rat, nrats, rs);
     title(['rat ', num2str(rat)]);
 
     g = [g m(1) > m(2)]; % null = chance (1 = policy gradient; note we plot them flipped) 
 
     dvars_all = [dvars_all; dvars];
+    vars_all = [vars_all; vars];
     PEs_all = [PEs_all; PEs];
     rat_all = [rat_all; repmat(rat, size(PEs, 1), 1)];
     r_all = [r_all; r];
@@ -32,12 +35,18 @@ end
 % group-level analysis the right way
 %
 dvar = dvars_all;
+var = vars_all;
 PE = PEs_all;
 rat = rat_all;
 r = r_all;
 rr = rr_all;
-tbl = table(dvar, PE, rat, r, rr);
+tbl = table(dvar, PE, rat, r, rr, var);
 
+
+fig_value_stats;
+
+
+%{
 formula = 'dvar ~ 1 + PE + r + (1 + PE + r | rat)';
 result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
 [beta, names, stats] = fixedEffects(result);
@@ -62,6 +71,7 @@ g
 sum(g) / length(g)
 p
 
+%}
 
 figure;
 fig_value_single(ex, 1, 1, rs, 'superrat');

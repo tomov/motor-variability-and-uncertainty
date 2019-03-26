@@ -1,7 +1,7 @@
 % test, for block clamps, whether direction of variability change depends on current value
 % copied stuff from fig_block.m
 
-function [m, dvars, PEs, block_reward, reward_rate_before_block] = fig_value_single(ex, rat, nrats, rs, figtitle)
+function [m, dvars, PEs, block_reward, reward_rate_before_block, vars] = fig_value_single(ex, rat, nrats, rs, figtitle)
 
 ax = -30 : 130;
 
@@ -12,6 +12,7 @@ cols = {'blue', 'red'};
 labels = {'PE > 0', 'PE < 0'};
 
 dvars = [];
+vars = [];
 PEs = [];
 block_reward = [];
 reward_rate_before_block = [];
@@ -45,9 +46,13 @@ for i = 1:length(bix)
     %dvar = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     %dvar = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 15)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % <-------- YESSS!!!
     dvar = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 20)) - nanvar(a{k}(cnt{k},ax >= -20 & ax <= -1)); % FUCK YES.....
-    vv{k}(cnt{k}) = dvar; 
+    variability = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 80)); % not delta
+
+    dv{k}(cnt{k}) = dvar; 
+    vv{k}(cnt{k}) = variability; 
     %vv{k}(cnt{k}) = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 5)) -  nanmean(v{k}(cnt{k},ax >= -1 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
-    
+   
+    vars = [vars; variability];
     dvars = [dvars; dvar];
     PEs = [PEs; r - rr];
     block_reward = [block_reward; r];
@@ -96,5 +101,7 @@ errorbar(m, se, 'LineStyle', 'none', 'color', 'black');
 hold off;
 xticklabels(labels);
 %xtickangle(30);
-ylabel('\Delta variability');
-xlabel({'first 10 trials after switch - ', 'last 10 trials before switch'});
+ylabel('Variability');
+xlabel('first 80 trials after switch');
+%ylabel('\Delta variability');
+%xlabel({'first 10 trials after switch - ', 'last 10 trials before switch'});
