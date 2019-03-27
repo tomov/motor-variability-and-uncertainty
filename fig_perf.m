@@ -46,7 +46,9 @@ for bin = 1:length(lb)
     for c_idx = 1:2
         ix = find(which{c_idx});
         ix = ix(ix + howmany < length(ex.a));
-        clear v;
+
+        v = nan(length(ix), length(ax));
+        vb{bin, c_idx} = nan(1, length(ix));
         for i = 1:length(ix)
             for j = 1:length(ax)
                 t = ix(i) + ax(j);
@@ -151,7 +153,7 @@ if ~for_grid
 
     subplot(3,4,10);
     errorbar(xs, cvd, cvsed, 'color', 'black');
-    ylim([0 40]);
+    ylim([0 25]);
     %ylim([0 500]);
     %ylim([-5 40]);
     xlabel('performance estimate');

@@ -72,6 +72,9 @@ for con_idx = 1:3
         % reward vs. no reward
         for c_idx = 1:2
             ix = find(which{c_idx});
+
+            v = nan(length(ix), length(ax));
+            vb{bin, c_idx} = nan(1, length(ix));
             for i = 1:length(ix)
                 for j = 1:length(ax)
                     t = ix(i) + ax(j);

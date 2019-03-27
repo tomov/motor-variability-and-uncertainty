@@ -71,6 +71,7 @@ clear se;
 hold on;
 for c_idx = 1:2
     ix = find(which{c_idx});
+    v = nan(length(ix), length(ax));
     for i = 1:length(ix)
         for j = 1:length(ax)
             t = ix(i) + ax(j);
