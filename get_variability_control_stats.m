@@ -1,4 +1,4 @@
-function [ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_curve_stats(ex)
+function [ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats(ex)
 
 tau = 5; % TODO fit 
 rbar = nan(1, ex.n);
@@ -18,7 +18,7 @@ for bin = 1:length(lb)
 
     which = {(ex.clamp == 1) & which_bin, (ex.clamp == 0) & which_bin};
 
-    [ax, m, se, md{bin}, sed{bin}, ~, vd(bin), vsd(bin), vn(bin), vsed(bin)] = get_single_trial_stats(ex, which);
+    [ax, m{bin}, se{bin}, md{bin}, sed{bin}, ~, vd(bin), vsd(bin), vn(bin), vsed(bin)] = get_single_trial_stats(ex, which);
 
 end
 
@@ -36,4 +36,5 @@ for bin = 1:length(lb)
 end
 
 
-stats = [vd cvd(1)];
+        % Fig 2B's   regulated variability     unregulated variability TODO ?
+stats = [vd          cvd(1)                    nanmean([m{end}{1} m{end}{2}]) ];

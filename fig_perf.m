@@ -16,9 +16,7 @@ end
 blue = [0 0 1];
 red = [1 0 0];
 
-[ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_curve_stats(ex);
-
-save tmp.mat
+[ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats(ex);
 
 for bin = 1:length(md)
     color{bin} = blue * (7 - bin)/6 + red * (bin - 1) / 6;
