@@ -61,7 +61,7 @@ cols = {'red', 'blue'};
 labels = {'reward', 'no reward'};
 
 
-[ax, m, se, md, sed] = get_single_trial_stats(ex);
+[ax, m, se, md, sed, stats] = get_single_trial_stats(ex);
 
 hold on;
 for c_idx = 1:2

@@ -57,5 +57,6 @@ F0 = fit(x', y', 'exp1');
 b = coeffvalues(F0);
 tau = - 1/b(2);
 
+
         % no reward    % reward        % diff       % no rew baseline   % rew baseline  % tau
 stats = [m{2}(ax == 5)  m{1}(ax == 5)  md(ax == 5)  m{2}(ax == -1)      m{1}(ax == -1)   tau];

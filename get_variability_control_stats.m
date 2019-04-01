@@ -1,4 +1,8 @@
-function [ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats(ex)
+function [ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats(ex, which_subset)
+
+if ~exist('which_subset', 'var')
+    which_subset = logical(ones(1, ex.n));
+end
 
 tau = 5; % TODO fit 
 rbar = nan(1, ex.n);
@@ -14,7 +18,7 @@ lb = [0 0.14 0.29 0.43 0.57 0.71 0.86];
 ub = [0.14 0.29 0.43 0.57 0.71 0.86 1];
 
 for bin = 1:length(lb)
-    which_bin = (rbar > lb(bin)) & (rbar <= ub(bin));
+    which_bin = (rbar > lb(bin)) & (rbar <= ub(bin)) & which_subset;
 
     which = {(ex.clamp == 1) & which_bin, (ex.clamp == 0) & which_bin};
 
@@ -37,4 +41,7 @@ end
 
 
         % Fig 2B's   regulated variability     unregulated variability TODO ?
+        %
+        % Delta variability 
+        % for each reward rate
 stats = [vd          cvd(1)                    nanmean([m{end}{1} m{end}{2}])];
