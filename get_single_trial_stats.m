@@ -1,15 +1,12 @@
-function [ax, m, se, md, sed, stats] = get_single_trial_stats(ex)
+function [ax, m, se, md, sed, stats, vd, vsd, vn, vsed] = get_single_trial_stats(ex, which)
 
 %which = {~isnan(ex.clamp) & ex.r == 1, ~isnan(ex.clamp) & ex.r == 0}; %<-- this is weird! the reward / no-reward trials are dependent b/c of the block clamps; try e.g. load data_allsess.mat; fig_cond(data(1))
-which = {ex.clamp == 1, ex.clamp == 0};
+if ~exist('which', 'var')
+    which = {ex.clamp == 1, ex.clamp == 0};
+end
 
 ax = -10:15;
-clear v;
-clear hh;
-clear n;
-clear m;
-clear s;
-clear se;
+howmany = 5; % how many trials to take variance over TODO not actually
 hold on;
 for c_idx = 1:2
     ix = find(which{c_idx});
@@ -25,6 +22,7 @@ for c_idx = 1:2
                 v(i,j) = NaN;
             end
         end
+        vb{c_idx}(i) = ex.var(ix(i) + howmany); % var(ex.a(ix(i) : ix(i) + howmany));
     end
 
     n{c_idx} = size(v, 1);
@@ -44,6 +42,10 @@ for c_idx = 1:2
 
     %plot([0 0], [60 100], '--', 'color', [0.4 0.4 0.4]);
 end
+vd = nanmean(vb{2}) - nanmean(vb{1});
+vsd = sqrt(nanvar(vb{2}) + nanvar(vb{1}));
+vn = length(vb{2}) + length(vb{1});
+vsed = vsd / sqrt(vn);
 
 md = m{2} - m{1};
 sed = sqrt(s{1}.^2 + s{2}.^2) / sqrt(n{1} + n{2}); 
