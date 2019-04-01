@@ -35,7 +35,7 @@ function agent = init_agent(params, a_min, a_max)
     if exist('params', 'var') && length(params) >= 3 && ~isnan(params(3))
         sigma = params(3);
     else
-        sigma = (a_max - a_min) * 2 / D;  
+        sigma = (a_max - a_min) / D;  
     end
 
     sigma_n = sqrt(13.5); % sigma_e,t = std dev of motor noise; from Figure 3D (unregulated variability); pgParams.n_var ???
@@ -56,14 +56,16 @@ function agent = init_agent(params, a_min, a_max)
     if exist('params', 'var') && length(params) >= 1 && ~isnan(params(1))
         s = params(1);
     else
-        s = 0.01;
+        %s = 0.01;
+        s = 1;
     end
 
     % transition noise variance i.e. process noise variance i.e. weight diffusion/drift noise i.e. innovation variance
     if exist('params', 'var') && length(params) >= 2 && ~isnan(params(2))
         q = params(2);
     else
-        q = 0.1;
+        %q = 0.1;
+        q = 1;
     end
     Q = q * eye(D);
 

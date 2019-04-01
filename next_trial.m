@@ -24,6 +24,8 @@ function ex = next_trial(ex, a, r)
 
         % switch target if boundary is too small
         if ex.bound < 2.3
+            %a = sort(abs(ex.a(ex.t-50:ex.t) - ex.target)); % <------- move this here and comment out below to get nice effect...
+
             while true
                 target = rand * (ex.max - ex.min) + ex.min;
                 if abs(target - ex.target) > 2.3 % can't be too close to old target

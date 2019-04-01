@@ -59,38 +59,12 @@ end
 
 cols = {'red', 'blue'};
 labels = {'reward', 'no reward'};
-%which = {~isnan(ex.clamp) & ex.r == 1, ~isnan(ex.clamp) & ex.r == 0}; %<-- this is weird! the reward / no-reward trials are dependent b/c of the block clamps; try e.g. load data_allsess.mat; fig_cond(data(1))
-which = {ex.clamp == 1, ex.clamp == 0};
 
-ax = -10:15;
-clear v;
-clear hh;
-clear n;
-clear m;
-clear s;
-clear se;
+
+[ax, m, se, md, sed] = get_single_trial_stats(ex);
+
 hold on;
 for c_idx = 1:2
-    ix = find(which{c_idx});
-    v = nan(length(ix), length(ax));
-    for i = 1:length(ix)
-        for j = 1:length(ax)
-            t = ix(i) + ax(j);
-            if t > length(ex.var)
-                break
-            end
-            v(i,j) = ex.var(t);
-            if ax(j) >= 0 && ax(j) < 5
-                v(i,j) = NaN;
-            end
-        end
-    end
-
-    n{c_idx} = size(v, 1);
-    m{c_idx} = nanmean(v, 1);
-    s{c_idx} = nanstd(v, 1);
-    se{c_idx} = nanstd(v, 1) / sqrt(size(v,1));
-    m{c_idx}(m{c_idx} == 0) = NaN; % to deal w/ real data...
     hh(c_idx) = plot(ax, m{c_idx}, 'color', cols{c_idx});
 
     w = ax < 0;
@@ -120,9 +94,6 @@ end
 
 if ~for_grid
     subplot(2,2,4);
-
-    md = m{2} - m{1};
-    sed = sqrt(s{1}.^2 + s{2}.^2) / sqrt(n{1} + n{2}); 
 
     plot(ax, md, 'color', 'black');
     hold on;
