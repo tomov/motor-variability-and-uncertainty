@@ -28,14 +28,14 @@ function agent = init_agent(params, a_min, a_max)
     if exist('params', 'var') && length(params) >= 4 && ~isnan(params(4))
         D = floor(params(4)); % TODO does mfit work with discrete vars?
     else
-        D = 10;
+        D = 5;
     end
 
     % var of basis f'ns
     if exist('params', 'var') && length(params) >= 3 && ~isnan(params(3))
         sigma = params(3);
     else
-        sigma = (a_max - a_min) * 3/ D;  
+        sigma = (a_max - a_min) * 2 / D;  
     end
 
     sigma_n = sqrt(13.5); % sigma_e,t = std dev of motor noise; from Figure 3D (unregulated variability); pgParams.n_var ???

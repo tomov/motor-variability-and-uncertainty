@@ -44,6 +44,7 @@ else
         ylabel(sprintf('s = %.4f', S(grid_i)));
     end
 end
+ylim([-30 30]);
 
 
 % reward and no-reward
