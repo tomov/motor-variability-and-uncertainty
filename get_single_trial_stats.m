@@ -50,7 +50,7 @@ vsed = vsd / sqrt(vn);
 md = m{2} - m{1};
 sed = sqrt(s{1}.^2 + s{2}.^2) / sqrt(n{1} + n{2}); 
 
-
+% single-trial exponential; 4.9 in paper
 y = md(ax >= 5);
 x = 1:length(y);
 F0 = fit(x', y', 'exp1');

@@ -17,9 +17,8 @@ end
 cols = {'blue', 'magenta', 'red'};
 labels = {'low', 'medium', 'high'};
 
-ax = -30 : 130;
+[ax, r_m, r_se, m, se, stats] = get_block_stats(ex);
 
-rs = [0.1 0.35 0.75];
 
 % rewards 
 %
@@ -29,24 +28,9 @@ if ~for_grid
 
     hold on;
     for c_idx = 1:3
-        bix = find(ex.bclamp_r == rs(c_idx));
-        clear r;
-        for i = 1:length(bix)
-            s = ex.bclamp_start(bix(i));
-            d = ex.bclamp_dur(bix(i));
-            e = s + d - 1;
-            for j = 1:length(ax)
-                t = s + ax(j);
-                r(i,j) = ex.r(t);
-            end
-        end
+        hh(c_idx) = plot(ax, r_m{c_idx}, 'color', cols{c_idx});
 
-        m = mean(r, 1);
-        s = std(r, 1);
-        se = s / sqrt(size(r, 1)); 
-        hh(c_idx) = plot(ax, m, 'color', cols{c_idx});
-
-        h = fill([ax flip(ax)], [m + se flip(m - se)], cols{c_idx});
+        h = fill([ax flip(ax)], [r_m{c_idx} + r_se{c_idx} flip(r_m{c_idx} - r_se{c_idx})], cols{c_idx});
         set(h, 'facealpha', 0.3, 'edgecolor', 'none');
     end
     hold off;
@@ -71,31 +55,19 @@ end
 
 hold on;
 for c_idx = 1:3
-    bix = find(ex.bclamp_r == rs(c_idx));
-    clear v;
-    for i = 1:length(bix)
-        s = ex.bclamp_start(bix(i));
-        for j = 1:length(ax)
-            t = s + ax(j);
-            v(i,j) = ex.var(t);
-        end
-    end
+    hh(c_idx) = plot(ax, m{c_idx}, 'color', cols{c_idx});
 
-    m = mean(v, 1);
-    s = std(v, 1);
-    se = s / sqrt(size(v, 1)); 
-    hh(c_idx) = plot(ax, m, 'color', cols{c_idx});
-
-    h = fill([ax flip(ax)], [m + se flip(m - se)], cols{c_idx});
+    h = fill([ax flip(ax)], [m{c_idx} + se{c_idx} flip(m{c_idx} - se{c_idx})], cols{c_idx});
     set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 end
 hold off;
+
 
 if ~for_grid
     legend(hh, labels);
     title('variability');
     xlabel('trials in block reward-clamp');
-    ylabel('\Delta variability');
+    ylabel('variability');
 else
     set(gca, 'xtick', []);
     set(gca, 'ytick', []);

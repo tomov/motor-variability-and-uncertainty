@@ -37,4 +37,4 @@ end
 
 
         % Fig 2B's   regulated variability     unregulated variability TODO ?
-stats = [vd          cvd(1)                    nanmean([m{end}{1} m{end}{2}]) ];
+stats = [vd          cvd(1)                    nanmean([m{end}{1} m{end}{2}])];
