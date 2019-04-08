@@ -7,7 +7,6 @@ end
 
 ax = -10:15;
 howmany = 5; % how many trials to take variance over TODO not actually
-hold on;
 for c_idx = 1:2
     ix = find(which{c_idx});
     v = nan(length(ix), length(ax));
@@ -53,7 +52,10 @@ sed = sqrt(s{1}.^2 + s{2}.^2) / sqrt(n{1} + n{2});
 % single-trial exponential; 4.9 in paper
 y = md(ax >= 5);
 x = 1:length(y);
-F0 = fit(x', y', 'exp1');
+which = ~isnan(y);
+x = x(which)';
+y = y(which)';
+F0 = fit(x, y, 'exp1');
 b = coeffvalues(F0);
 tau = - 1/b(2);
 
