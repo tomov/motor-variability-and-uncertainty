@@ -83,7 +83,7 @@ if ~for_grid
 
     subplot(3,4,10);
     errorbar(xs, cvd, cvsed, 'color', 'black');
-    ylim([0 25]);
+    ylim([0 35]);
     %ylim([0 500]);
     %ylim([-5 40]);
     xlabel('performance estimate');

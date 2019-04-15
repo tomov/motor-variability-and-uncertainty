@@ -77,12 +77,14 @@ while ~ex.done
     if do_plot == 1 && ex.t >= 250 + 300
         figs;
         drawnow;
+        %{
         if ex.clamp(ex.t) == 0 || ex.clamp(ex.t) == 1
             fprintf('coming up! clamp = %d\n', ex.clamp(ex.t));
             pause;
         elseif ex.clamp(ex.t - 1) == 0 || ex.clamp(ex.t - 1) == 1
             pause;
         end
+        %}
         pause(0.001);
     elseif do_plot == 2
         if ex.t >= 1000 && mod(ex.t, 1000) == 0
