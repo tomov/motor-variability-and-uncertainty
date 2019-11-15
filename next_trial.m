@@ -16,6 +16,7 @@ function ex = next_trial(ex, a, r)
 
         % set reward boundary to keep reward rate around 35%
         rr = mean(ex.r(ex.t-50:ex.t));
+        rr
         if rr < 30 || rr > 40
             % distances from target angle on last 50 trials
             a = sort(abs(ex.a(ex.t-50:ex.t) - ex.tar(ex.t-50:ex.t)));

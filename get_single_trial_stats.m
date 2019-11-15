@@ -1,12 +1,28 @@
 function [ax, m, se, md, sed, stats, vd, vsd, vn, vsed] = get_single_trial_stats(ex, which)
 
+% get variability control function after rewarded (which{1}) vs. unrewarded (which{2}) trials/clamps
+%
+% m(nrange) = variability (variance) for trials -10..15 after clamp, averaged across clamps (fig 1e, bottom); {1} = pos, {2} = neg
+% se = s.e.m. of m
+%
+% md = diff of neg and pos m (fig 1f)
+% sed = s.e.m. of md
+%
+% vb(ntrials) =  mean variability (variance) on trial 5 (i.e. var(1..5)) for all clamps  (for bar plots); {1} = pos, {2} = neg
+%
+% vd(ntrials) = diff of neg and pos vb (for bar plots)
+% vsd = std of vd
+% vsed = s.e.m. of vd
+% 
+
+
 %which = {~isnan(ex.clamp) & ex.r == 1, ~isnan(ex.clamp) & ex.r == 0}; %<-- this is weird! the reward / no-reward trials are dependent b/c of the block clamps; try e.g. load data_allsess.mat; fig_cond(data(1))
 if ~exist('which', 'var')
     which = {ex.clamp == 1, ex.clamp == 0};
 end
 
 ax = -10:15;
-howmany = 5; % how many trials to take variance over TODO not actually
+howmany = 5; % how many trials to take variance over (it's a rolling variance -> take on trias 5 for trials 1..5) TODO not actually
 for c_idx = 1:2
     ix = find(which{c_idx});
     v = nan(length(ix), length(ax));
@@ -21,7 +37,7 @@ for c_idx = 1:2
                 v(i,j) = NaN;
             end
         end
-        vb{c_idx}(i) = ex.var(ix(i) + howmany); % var(ex.a(ix(i) : ix(i) + howmany));
+        vb{c_idx}(i) = ex.var(ix(i) + howmany); % var(ex.a(ix(i) : ix(i) + howmany)); <-- for trials var(ix(i)..ix(i)+howmany); already computed
     end
 
     n{c_idx} = size(v, 1);

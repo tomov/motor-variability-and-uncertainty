@@ -25,6 +25,17 @@ for rat = 1:nrats
     g = [g m(1) > m(2)]; % null = chance (1 = policy gradient; note we plot them flipped) 
 
     dvars_all = [dvars_all; dvars];
+
+    %{
+    formula = 'vars ~ 1 + PEs';
+    tbl = table(dvars, PEs, r, rr, vars);
+    result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
+    [beta, names, stats] = fixedEffects(result);
+    H = [0 1]
+    [p, F, DF1, DF2] = coefTest(result, H);
+    fprintf('rat #%d: fitglme PE beta = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', rat, H * beta, p, DF1, DF2, F);
+    %}
+
     vars_all = [vars_all; vars];
     PEs_all = [PEs_all; PEs];
     rat_all = [rat_all; repmat(rat, size(PEs, 1), 1)];

@@ -29,6 +29,13 @@ h = fill([range flip(range)], [ex.tar(range) + ex.b(range) flip(ex.tar(range) - 
 set(h, 'facealpha', 0.3, 'edgecolor', 'none');
 plot(ex.a(range), 'o', 'color', 'black', 'markerfacecolor', 'black', 'markersize', 2);
 plot(ex.tar(range), 'color', 'red');
+
+% clamps
+mini1 = find(~isnan(ex.clamp(range)) & ex.clamp(range) == 1);
+plot(mini1, -29 * ones(size(mini1)), 'o', 'color', 'green', 'markerfacecolor', 'green', 'markersize', 1);
+mini0 = find(~isnan(ex.clamp(range)) & ex.clamp(range) == 0);
+plot(mini0, -30 * ones(size(mini0)), 'o', 'color', 'green', 'markerfacecolor', 'green', 'markersize', 1);
+
 hold off;
 if ~for_grid
     xlabel('trial');

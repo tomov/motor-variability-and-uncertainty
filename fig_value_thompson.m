@@ -3,6 +3,7 @@
 %load('archive/thompson_300000_nonstationary.mat');
 %load('Thompson_300000.mat');
 %load grid3_s=0.013335_q=0.031623_nsess=1000.mat
+
 load thompson_s=0.013335_q=0.031623_nsess=10000.mat;
 
 %rs =  [0.1 0.35 0.75]; % all blocks

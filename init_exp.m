@@ -30,4 +30,3 @@ function ex = init_exp(nsessions)
     ex.bclamp_dur = []; % duration of block clamps
     ex.bclamp_r = []; % reward rate for block clamps
     ex.tarclamp = nan(1, ex.n); % trials with fixed targets
-

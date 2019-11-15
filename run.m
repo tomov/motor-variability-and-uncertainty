@@ -49,6 +49,12 @@ ex = mini_clamp(ex);
 ex = stationary(ex);
 %ex = breaks(ex);
 
+
+%[~, Q, U] = choicefun(agent);
+%ex.Q = nan(length(Q), ex.n); % Q-value history
+%ex.U = nan(length(Q), ex.n); % UCB history
+
+
 if do_plot > 0
     figure;
 end
@@ -56,7 +62,8 @@ end
 while ~ex.done
     %disp(ex.t);
 
-    a = choicefun(agent);
+    %[a, Q, U] = choicefun(agent);
+    [a] = choicefun(agent);
     %a = 0;
 
     r = reward(ex, a);
@@ -72,6 +79,8 @@ while ~ex.done
         end
     end
 
+    %ex.Q(:,ex.t) = Q;
+    %ex.U(:,ex.t) = U;
     ex = next_trial(ex, a, r);
 
     if do_plot == 1 && ex.t >= 250 + 300

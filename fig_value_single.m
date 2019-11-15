@@ -45,7 +45,7 @@ for i = 1:length(bix)
 
     %dvar = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     %dvar = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 15)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % <-------- YESSS!!!
-    dvar = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 20)) - nanvar(a{k}(cnt{k},ax >= -20 & ax <= -1)); % FUCK YES.....
+    dvar = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 20)) - nanvar(a{k}(cnt{k},ax >= -20 & ax <= -1)); % FUCK YES..... ......fuck no => wrong; 
     variability = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 80)); % not delta
 
     dv{k}(cnt{k}) = dvar; 
@@ -105,3 +105,5 @@ ylabel('Variability');
 xlabel('first 80 trials after switch');
 %ylabel('\Delta variability');
 %xlabel({'first 10 trials after switch - ', 'last 10 trials before switch'});
+
+save wtf.mat

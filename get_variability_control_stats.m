@@ -1,5 +1,7 @@
 function [ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats(ex, which_subset)
 
+% for fig 2
+
 if ~exist('which_subset', 'var')
     which_subset = logical(ones(1, ex.n));
 end
