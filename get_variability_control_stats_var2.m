@@ -1,27 +1,32 @@
-function [ax, labels, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats_var(ex, which_subset)
+function [ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats_var2(ex, which_subset)
 
 % copy of get_variability_control_stats TODO dedupe
-% but as f'n of reward variance using clamps -- proper analysis!
+% but as f'n of reward variance not perf
+
+% for fig 2
 
 if ~exist('which_subset', 'var')
     which_subset = logical(ones(1, ex.n));
 end
 
 tau = 5; % TODO fit 
+vbar = nan(1, ex.n);
+for t = 51:ex.n
+    vbar(t) = 0;
+    for s = 1:50
+        vbar(t) = vbar(t) + ex.var(t - s) * exp(-s / tau);
+    end
+end
+vbar = vbar / nanmax(vbar);
 
+Y = prctile(vbar, [1:15:99]);
+lb = Y(1:end-1);
+ub = Y(2:end);
 
-labels = {'11', '01', '10', '00'};
+for bin = 1:length(lb)
+    which_bin = (vbar > lb(bin)) & (vbar <= ub(bin)) & which_subset;
 
-which_bin{1} = [logical([0 0])  ex.clamp(1:end-2) == 1 & ex.clamp(2:end-1) == 1];
-which_bin{2} = [logical([0 0])  ex.clamp(1:end-2) == 0 & ex.clamp(2:end-1) == 1];
-which_bin{3} = [logical([0 0])  ex.clamp(1:end-2) == 1 & ex.clamp(2:end-1) == 0];
-which_bin{4} = [logical([0 0])  ex.clamp(1:end-2) == 0 & ex.clamp(2:end-1) == 0];
-
-
-for bin = 1:length(which_bin)
-    which_b = which_bin{bin} & which_subset;
-
-    which = {(ex.clamp == 1) & which_b, (ex.clamp == 0) & which_b};
+    which = {(ex.clamp == 1) & which_bin, (ex.clamp == 0) & which_bin};
 
     [ax, m{bin}, se{bin}, md{bin}, sed{bin}, ~, vd(bin), vsd(bin), vn(bin), vsed(bin)] = get_single_trial_stats(ex, which);
 
@@ -35,7 +40,7 @@ for s = 1:10
 end
 %vd = vd / rs; % TODO debug
 
-for bin = 1:length(which_bin)
+for bin = 1:length(lb)
     cvd(bin) = sum(vd(bin:end)); % TODO do it right / normalize by rs ?
     cvsed(bin) = sqrt(sum(vsd(bin:end).^2)) / sqrt(sum(vn(bin:end)));
 end

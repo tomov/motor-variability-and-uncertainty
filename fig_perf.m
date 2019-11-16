@@ -16,7 +16,7 @@ end
 blue = [0 0 1];
 red = [1 0 0];
 
-[ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats_var(ex);
+[ax, lb, ub, md, sed, vd, vsd, vn, vsed, cvd, cvsed, stats] = get_variability_control_stats_var2(ex);
 
 for bin = 1:length(md)
     color{bin} = blue * (7 - bin)/6 + red * (bin - 1) / 6;
@@ -58,7 +58,7 @@ else
     subplot(grid_R * 2, grid_C * 3, ((grid_i - 1) * 2 + 1) * grid_C * 3 + (grid_j - 1) * 3 + 2);
 end
 
-xs = (lb + ub)/2;
+xs = (lb + ub)/2 / max(ub);
 hold on;
 for bin = 1:length(lb)
     h = bar(xs(bin), vd(bin), 0.08);
