@@ -24,6 +24,7 @@ clear vv;
 cnt = {0, 0};
 for i = 1:length(bix)
     s = ex.bclamp_start(bix(i));
+    dur = ex.bclamp_dur(bix(i));
     rr = nanmean(ex.r(s-20:s-1)); % value TODO maybe more weighted towards recent rewards?
     r = ex.bclamp_r(bix(i));
 
@@ -46,7 +47,9 @@ for i = 1:length(bix)
     %dvar = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     %dvar = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 15)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % <-------- YESSS!!!
     dvar = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 20)) - nanvar(a{k}(cnt{k},ax >= -20 & ax <= -1)); % FUCK YES..... ......fuck no => wrong; b/c PE is selecting for prev perf i.e. prev variability => PE > 0 means prev perf was low => prev var was high => now it should be lower (dvar < 0)
-    variability = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 80)); % not delta !!!!
+    %variability = nanvar(a{k}(cnt{k},ax >= 20 & ax <= 50)); % not delta !!!!
+    variability = nanvar(a{k}(cnt{k},ax >= round(dur*.25) & ax < dur*0.75)); % not delta !!!!
+    %variability = ex.var(s + dur - 1);
 
     dv{k}(cnt{k}) = dvar; 
     vv{k}(cnt{k}) = variability; 

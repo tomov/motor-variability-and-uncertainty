@@ -34,20 +34,46 @@ if length(rs) == 1
     end
 
 else
-    formula = 'var ~ 1 + PE + r';
-    result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
-    [beta, names, stats] = fixedEffects(result);
-    H = [0 1 0]
-    [p, F, DF1, DF2] = coefTest(result, H);
-    fprintf('fitglme PE beta = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
+
     
     if ismember('rat', tbl.Properties.VariableNames)
         formula = 'var ~ 1 + PE + r + (1 + PE + r | rat)';
         result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
         [beta, names, stats] = fixedEffects(result);
+        res1 = result;
         H = [0 1 0]
         [p, F, DF1, DF2] = coefTest(result, H);
-        fprintf('(mixed) fitglme PE beta = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
+        fprintf('(%s) fitglme PE beta = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', formula, H * beta, p, DF1, DF2, F);
+
+
+        formula = 'var ~ 1 + r + (1 + r | rat)';
+        result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
+        [beta, names, stats] = fixedEffects(result);
+        res2 = result;
+        H = [0 1 ]
+        [p, F, DF1, DF2] = coefTest(result, H);
+        fprintf('(%s) fitglme r beta = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', formula, H * beta, p, DF1, DF2, F);
+
+        compare(res2, res1)
+    else
+
+        formula = 'var ~ 1 + PE + r';
+        result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
+        [beta, names, stats] = fixedEffects(result);
+        res1 = result
+        H = [0 1 0]
+        [p, F, DF1, DF2] = coefTest(result, H);
+        fprintf('(%s) fitglme PE beta = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', formula, H * beta, p, DF1, DF2, F);
+
+        formula = 'var ~ 1 + r';
+        result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
+        [beta, names, stats] = fixedEffects(result);
+        res2 = result
+        H = [0 1]
+        [p, F, DF1, DF2] = coefTest(result, H);
+        fprintf('(%s) fitglme PE beta = %f (positive is policy gradient), p = %f, F(%d,%d) = %f\n', formula, H * beta, p, DF1, DF2, F);
+
+        compare(res2, res1)
     end
 end
 
