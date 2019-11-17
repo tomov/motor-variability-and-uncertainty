@@ -1,7 +1,7 @@
 % fig_value but for policy
 
 %load policy_T=1_300000_nonstationary.mat; <-- wrong
-%load('policy_T=100_300000.mat');
+load('policy_T=100_300000.mat');
 
 %rs =  [0.1 0.35 0.75]; % all blocks
 rs =  [0.35]; % middle blocks only

@@ -1,9 +1,7 @@
-% fig_memory but for thompson
+% fig_memory but for softmax (copy of thompson)
 
-%load('archive/thompson_300000_nonstationary.mat');
-%load Thompson_300000.mat
-%load grid3_s=0.013335_q=0.031623_nsess=10000.mat
-load thompson_s=0.013335_q=0.031623_nsess=10000.mat;
+%load softmax_300000.mat
+load softmax_grid1_sigma=dx1.5_s=10.000000_q=100.000000_nsess=10000.mat
 
 figure;
 [mses, ranges, vlines, y, v, d1, d2, aa, tt, ttar, ttar1, ttar2] = fig_memory_single(ex, 1, 1);

@@ -1,6 +1,7 @@
 % fig_memory but for policy
 
-load policy_T=100_300000_nonstationary.mat;
+%load policy_T=100_300000_nonstationary.mat; WRONG
+load('policy_T=100_300000.mat');
 
 figure;
 [mses, ranges, vlines, y, v, d1, d2, aa, tt, ttar, ttar1, ttar2] = fig_memory_single(ex, 1, 1);
