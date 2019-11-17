@@ -5,7 +5,7 @@
 %clear all;
 %load fig_cond.mat
 
-function fig_perf(ex, for_grid, grid_R, grid_C, grid_i, grid_j)
+function fig_perf_var(ex, for_grid, grid_R, grid_C, grid_i, grid_j)
 
 if ~exist('for_grid', 'var')
     for_grid = false;
