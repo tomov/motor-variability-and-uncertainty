@@ -45,8 +45,8 @@ for i = 1:length(bix)
 
     %dvar = nanmean(v{k}(cnt{k},ax >= 0 & ax <= 10)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % technically should be 5 vs. -1 (b/c var is over 5 trials)
     %dvar = nanmean(v{k}(cnt{k},ax >= 5 & ax <= 15)) -  nanmean(v{k}(cnt{k},ax >= -10 & ax <= -1)); % <-------- YESSS!!!
-    dvar = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 20)) - nanvar(a{k}(cnt{k},ax >= -20 & ax <= -1)); % FUCK YES..... ......fuck no => wrong; 
-    variability = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 80)); % not delta
+    dvar = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 20)) - nanvar(a{k}(cnt{k},ax >= -20 & ax <= -1)); % FUCK YES..... ......fuck no => wrong; b/c PE is selecting for prev perf i.e. prev variability => PE > 0 means prev perf was low => prev var was high => now it should be lower (dvar < 0)
+    variability = nanvar(a{k}(cnt{k},ax >= 0 & ax <= 80)); % not delta !!!!
 
     dv{k}(cnt{k}) = dvar; 
     vv{k}(cnt{k}) = variability; 

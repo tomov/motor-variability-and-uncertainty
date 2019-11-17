@@ -1,19 +1,24 @@
 % fig_jumps helper; basically copy of fig_memory21_single
 % 
-% x = (abs) distance to new target
-% y = avg rew for first 20 trials after switch
-% b = boundary size
+% v = variability (all trials) 
+% b = boundary size (all trials)
+% sess_var = variability (whole sess)
+% sess_bound = boundary size (whole sess)
 
-function [r, p, x, y, b] = fig_jumps_single(ex, rat, nrats)
+function [v, b, sess_var, sess_bound] = fig_bounds_single(ex, rat, nrats)
 
-    tar = NaN;
-    cnt = 0;
 
+    %which = mod(ex.t, ex.session_size) > 5;
+    which = logical(ones(size(ex.a)));
+    v = ex.var(which)';
+    b = ex.b(which)';
+
+    sess_var = [];
+    sess_bound = [];
     sess_tar = [];
     sess_cnt = [];
 
-    sess_initrew = [];
-    sess_bound = [];
+    tar = NaN;
 
     for t = 1:length(ex.a)
         if tar ~= ex.tar(t)
@@ -22,7 +27,7 @@ function [r, p, x, y, b] = fig_jumps_single(ex, rat, nrats)
             if ~isnan(tar)
                 sess_cnt = [sess_cnt cnt];
                 sess_tar = [sess_tar tar];
-                sess_initrew = [sess_initrew nanmean(rew(1:20))];
+                sess_var = [sess_var var(ex.a(t - cnt : t - 1))];
                 sess_bound = [sess_bound bound];
             end
 
@@ -38,40 +43,13 @@ function [r, p, x, y, b] = fig_jumps_single(ex, rat, nrats)
 
     sess_cnt = [sess_cnt cnt];
     sess_tar = [sess_tar tar];
-    sess_initrew = [sess_initrew nanmean(rew(1:20))];
+    sess_var = [sess_var var(ex.a(t - cnt : t - 1))];
     sess_bound = [sess_bound bound];
 
-    diff = sess_tar(2:end) - sess_tar(1:end-1);
-    diff = [NaN diff];
-    diff = abs(diff);
+    sess_var = sess_var';
+    sess_bound = sess_bound';
 
-    %second_half = diff >= nanmedian(diff);
-    frac = 0.3;
-    d = diff(~isnan(diff));
-    d = sort(d);
-    idx = round(frac * length(d));
-    second_half = diff >= d(idx);
-
-    second_half(2:end) = 1; % <--- consider all trials
-
-    subplot(2,nrats,rat);
-    x = diff(second_half);
-    %y = sess_cnt(second_half);
-    y = sess_initrew(second_half);
-    b = sess_bound(second_half);
-    scatter(x, y);
-    lsline;
-    x = x';
-    y = y'; 
-    b = b';
-    [r, p] = corr(x, y);
-
-    xlabel('distance to new target');
-    ylabel('avg reward during first 20 trials');
-
-    nansem = @(x) nanstd(x) / sqrt(sum(~isnan(x)));
-    sem = @(x) nanstd(x) / sqrt(length(x));
-
+    %{
     bin_size = 5;
     m = [];
     s = [];
@@ -98,3 +76,4 @@ function [r, p, x, y, b] = fig_jumps_single(ex, rat, nrats)
 
     xlabel('distance to new target');
     ylabel('avg reward during first 20 trials');
+    %}

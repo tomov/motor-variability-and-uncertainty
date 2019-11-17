@@ -34,6 +34,21 @@ b = b_all;
 rat = rat_all;
 tbl = table(y, x, rat, b);
 
+
+% group-level analysis for reward 
+formula = 'y ~ 1 + x + (1 + x | rat)';
+
+result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'FitMethod', 'Laplace');
+
+[beta, names, stats] = fixedEffects(result);
+names
+H = [0 1];
+[p, F, DF1, DF2] = coefTest(result, H);
+fprintf('fitglme (reward on first 20 trials; controlling for boundary) slope = %f (negative is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
+
+
+
+
 % group-level analysis for reward 
 formula = 'y ~ 1 + x + b + (1 + x + b | rat)';
 
@@ -42,5 +57,5 @@ result = fitglme(tbl, formula, 'Distribution', 'Normal', 'Link', 'Identity', 'Fi
 [beta, names, stats] = fixedEffects(result);
 H = [0 1 0];
 [p, F, DF1, DF2] = coefTest(result, H);
-fprintf('fitglme (reward on first 20 trials) slope = %f (negative is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
+fprintf('fitglme (reward on first 20 trials; controlling for boundary) slope = %f (negative is policy gradient), p = %f, F(%d,%d) = %f\n', H * beta, p, DF1, DF2, F);
 

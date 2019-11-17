@@ -43,8 +43,8 @@ function agent = init_agent(params, a_min, a_max)
     assert(D > 1);
     for i = 1:D
         mu(i,:) = (a_max - a_min) * (i - 1) / (D - 1) + a_min; % mean of basis f'n i
-        %basis{i} = @(a) normpdf(a, mu(i), sigma); % basis f'n i
-        basis{i} = @(a) rect(a, mu(i) - da/2, mu(i) + da/2);
+        basis{i} = @(a) normpdf(a, mu(i), sigma); % basis f'n i
+        %basis{i} = @(a) rect(a, mu(i) - da/2, mu(i) + da/2);
     end
 
     w = zeros(D, 1); % prior for w
