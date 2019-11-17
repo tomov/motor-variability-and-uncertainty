@@ -1,4 +1,4 @@
-% fig_value but for UCB 
+% fig_value but for softmax
 
 %load softmax_300000.mat
 load softmax_grid1_sigma=dx1.5_s=10.000000_q=100.000000_nsess=10000.mat

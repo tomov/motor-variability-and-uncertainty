@@ -1,6 +1,5 @@
 % fig_bounds but for thompson
 
-clear;
 %load thompson_300000_nonstationary.mat
 %load thompson_300000.mat
 load thompson_s=0.013335_q=0.031623_nsess=10000.mat;

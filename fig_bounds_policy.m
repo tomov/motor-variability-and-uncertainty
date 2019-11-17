@@ -5,7 +5,7 @@
 load('policy_T=100_300000.mat');
 
 figure;
-[v, b, sv, sb, sr, rr, ss] = fig_bounds_single(ex, 1, 1, actor);
+[v, b, sv, sb, sr, rr, ss] = fig_bounds_single(ex, 1, 1);
 
 stbl = table(sv, sb, sr);
 

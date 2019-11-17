@@ -5,13 +5,24 @@
 % sess_var = variability (whole sess)
 % sess_bound = boundary size (whole sess)
 % sess_bound = reward (whole sess)
+% rr = reward rate, rolling (as calculated by policy gradient -- see update_policy.m)
+% sess_s = regulated exploratory variability, as calc by choose_policy
 
-function [v, b, sess_var, sess_bound, sess_rew, rr, sess_s] = fig_bounds_single(ex, rat, nrats, actor)
+function [v, b, sess_var, sess_bound, sess_rew, rr, sess_s] = fig_bounds_single(ex, rat, nrats)
+
+    % TODO hardcoded
+    actor.alpha_r = 0.1846;
+    actor.s = [7.8102    4.2426    2.4495    2.0000    1.7321    1.0000    0.1000];
+    actor.d = 7;
 
     rr = 0;
     ex.rr = nan(size(ex.a));
     for t = 1:length(ex.a)
-        PE = ex.r(t) - rr;
+        if ~isnan(ex.r(t))
+            PE = ex.r(t) - rr;
+        else
+            PE = -rr; % no resp = no rew
+        end
         rr = rr + actor.alpha_r * PE; % actor.alpha_r
         ex.rr(t) = rr;
     end
@@ -30,10 +41,11 @@ function [v, b, sess_var, sess_bound, sess_rew, rr, sess_s] = fig_bounds_single(
     sess_s = [];
 
     tar = NaN;
+    bound = NaN;
 
     for t = 1:length(ex.a)
-        if tar ~= ex.tar(t)
-            % target switched
+        if tar ~= ex.tar(t) || bound ~= ex.b(t) % TODO not good criterion; sometimes we merge two sessions
+            % new session
             %
             if ~isnan(tar)
 
@@ -45,7 +57,10 @@ function [v, b, sess_var, sess_bound, sess_rew, rr, sess_s] = fig_bounds_single(
                 %sess_var = [sess_var var(ex.a(t - 5 : t - 1))];
                 %sess_rew = [sess_rew mean(ex.r(t - 5 : t - 1))];
                 sess_rew = [sess_rew mean(ex.rr(t-50:t-1))];
-                sess_var = [sess_var mean(ex.var(t-50:t-1))];
+                %sess_var = [sess_var var(ex.a(t-round(cnt/2):t-1))];
+                sess_var = [sess_var ex.var(t-1)];
+                %sess_var = [sess_var var(ex.a(t-cnt:t-1))];
+                %cnt
                 sess_s = [sess_s sigma_e];
                 sess_bound = [sess_bound bound];
             end
